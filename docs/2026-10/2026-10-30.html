@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>동탄 주말 나들이 가이드 (10.31~11.01)</title>
+<style>
+  :root {
+    --primary: #059669;
+    --primary-dark: #047857;
+    --primary-light: #d1fae5;
+    --primary-text: #065f46;
+    --bg: #f8fafc;
+    --surface: #ffffff;
+    --border: #e2e8f0;
+    --text: #0f172a;
+    --muted: #475569;
+    --amber-bg: #fffbeb;
+    --amber-border: #fde68a;
+    --amber-text: #92400e;
+    --shadow-sm: 0 1px 2px rgba(15,23,42,0.05);
+    --shadow-md: 0 4px 12px rgba(15,23,42,0.08);
+    --radius: 14px;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Pretendard', 'Apple SD Gothic Neo', 'Malgun Gothic', -apple-system, BlinkMacSystemFont, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    font-size: 14px;
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+  }
+  .container { max-width: 1080px; margin: 0 auto; padding: 0 16px; }
+  header {
+    background: linear-gradient(135deg, #059669 0%, #047857 100%);
+    color: #fff;
+    padding: 20px 0;
+    box-shadow: var(--shadow-md);
+  }
+  .header-inner {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .profile-pill {
+    display: inline-block;
+    background: rgba(255,255,255,0.16);
+    padding: 4px 10px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 600;
+    margin-bottom: 6px;
+  }
+  h1 { font-size: 22px; font-weight: 800; letter-spacing: -0.02em; }
+  .header-actions { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+  .weather-badge {
+    background: rgba(255,255,255,0.18);
+    padding: 7px 12px;
+    border-radius: 10px;
+    font-size: 13px;
+    font-weight: 600;
+  }
+  .btn {
+    border: 1px solid var(--border);
+    background: var(--surface);
+    color: var(--text);
+    padding: 8px 13px;
+    border-radius: 10px;
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    transition: all 0.15s ease;
+  }
+  .btn:hover { background: #f1f5f9; }
+  .btn-primary { background: var(--primary); color: #fff; border-color: var(--primary); }
+  .btn-primary:hover { background: var(--primary-dark); }
+  .btn-dark { background: #1e293b; color: #fff; border-color: #1e293b; }
+  .btn-dark:hover { background: #0f172a; }
+  .btn-light { background: #fff; color: var(--primary-dark); border-color: #fff; }
+  .btn-light:hover { background: #ecfdf5; }
+
+  main { padding: 18px 0 36px; }
+  .kpi-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 12px;
+    margin-bottom: 14px;
+  }
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 15px;
+    box-shadow: var(--shadow-sm);
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+  }
+  .kpi-card small { color: var(--muted); font-size: 12px; font-weight: 600; display: block; margin-bottom: 4px; }
+  .kpi-card strong { font-size: 15px; font-weight: 800; color: var(--text); }
+
+  .toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 12px;
+  }
+  .tabs { display: flex; flex-wrap: wrap; gap: 6px; }
+  .tab-btn {
+    border: 1px solid var(--border);
+    background: #f8fafc;
+    color: var(--muted);
+    padding: 7px 12px;
+    border-radius: 999px;
+    font-size: 12.5px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.15s ease;
+  }
+  .tab-btn.active { background: var(--primary); color: #fff; border-color: var(--primary); }
+  .search-wrap { display: flex; gap: 8px; flex-wrap: wrap; }
+  input[type="search"], select {
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 7px 11px;
+    font-size: 13px;
+    background: #fff;
+    color: var(--text);
+  }
+  .notice-banner {
+    background: var(--amber-bg);
+    border: 1px solid var(--amber-border);
+    color: var(--amber-text);
+    border-radius: 12px;
+    padding: 10px 14px;
+    font-size: 13px;
+    font-weight: 600;
+    margin-bottom: 16px;
+  }
+  .spots-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(315px, 1fr));
+    gap: 14px;
+  }
+  .spot-card { display: flex; flex-direction: column; justify-content: space-between; gap: 10px; }
+  .spot-card:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); }
+  .spot-card.visited { border: 2px solid #10b981; background: #f0fdf4; }
+  .spot-top { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
+  .badge {
+    font-size: 11.5px;
+    font-weight: 700;
+    padding: 3px 9px;
+    border-radius: 999px;
+    background: var(--primary-light);
+    color: var(--primary-text);
+  }
+  .badge.fest { background: #fef3c7; color: #92400e; }
+  .fav-btn {
+    border: 1px solid var(--border);
+    background: #fff;
+    padding: 4px 9px;
+    border-radius: 8px;
+    font-size: 12px;
+    font-weight: 700;
+    cursor: pointer;
+  }
+  .fav-btn.on { background: #fef9c3; border-color: #fde047; color: #854d0e; }
+  .spot-title { font-size: 16px; font-weight: 800; color: var(--text); line-height: 1.35; }
+  .spot-meta { font-size: 12.5px; font-weight: 600; color: var(--primary-dark); }
+  .age-box {
+    background: #f8fafc;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 9px 11px;
+    font-size: 12.5px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .food-box {
+    background: var(--amber-bg);
+    border: 1px solid var(--amber-border);
+    border-radius: 10px;
+    padding: 8px 11px;
+    font-size: 12.5px;
+  }
+  .food-box strong { color: var(--amber-text); }
+  .spot-actions { display: flex; justify-content: space-between; align-items: center; gap: 8px; margin-top: 2px; }
+  .empty-state {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 40px 20px;
+    color: var(--muted);
+    background: var(--surface);
+    border: 1px dashed var(--border);
+    border-radius: var(--radius);
+  }
+
+  .modal-backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(15,23,42,0.55);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 16px;
+    z-index: 50;
+  }
+  .modal-backdrop.open { display: flex; }
+  .modal-panel {
+    background: var(--surface);
+    max-width: 520px;
+    width: 100%;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 20px 40px rgba(15,23,42,0.22);
+    max-height: 90vh;
+    display: flex;
+    flex-direction: column;
+  }
+  .modal-header {
+    background: var(--primary);
+    color: #fff;
+    padding: 14px 18px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: 800;
+    font-size: 15px;
+  }
+  .modal-close {
+    background: rgba(255,255,255,0.2);
+    border: none;
+    color: #fff;
+    width: 28px;
+    height: 28px;
+    border-radius: 8px;
+    font-weight: 800;
+    cursor: pointer;
+  }
+  .modal-body { padding: 16px 18px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; }
+  .check-item { display: flex; align-items: center; gap: 8px; padding: 3px 0; cursor: pointer; font-size: 13px; }
+  .modal-footer { display: flex; justify-content: flex-end; gap: 8px; margin-top: 4px; }
+</style>
+</head>
+<body>
+<header>
+  <div class="container header-inner">
+    <div>
+      <div class="profile-pill">📍 동탄반석로 71 출발 · 👧 7세 딸 & 👦 3세 아들 · 🍜 순한 국수 맛집</div>
+      <h1>주말 나들이 &amp; 축제 큐레이션 (10.31~11.01)</h1>
+    </div>
+    <div class="header-actions">
+      <div class="weather-badge">☀️ 7~20℃ 쾌청·미세먼지 보통</div>
+      <button id="ckBtn" class="btn btn-light">📋 준비물 팩</button>
+    </div>
+  </div>
+</header>
+
+<main class="container">
+  <section id="kpis" class="kpi-grid"></section>
+
+  <section class="card toolbar">
+    <div id="tabs" class="tabs"></div>
+    <div class="search-wrap">
+      <input id="qInput" type="search" placeholder="장소, 국수, 키워드 검색...">
+      <select id="sortSel">
+        <option value="r">추천순</option>
+        <option value="t">가까운순</option>
+        <option value="n">이름순</option>
+      </select>
+    </div>
+  </section>
+
+  <div class="notice-banner">💡 10.31 핼러윈 주말 맞이 신규 6곳 로테이션 반영 완료 (광교푸른숲, 용인농촌테마, 동탄여울, 수원홀리스타, 한국민속촌, 과천과학관)</div>
+
+  <section id="grid" class="spots-grid"></section>
+</main>
+
+<div id="modalBox" class="modal-backdrop">
+  <div class="modal-panel">
+    <div class="modal-header">
+      <span id="modalTitle"></span>
+      <button id="modalClose" class="modal-close">✕</button>
+    </div>
+    <div id="modalBody" class="modal-body"></div>
+  </div>
+</div>
+
+<script>
+const S = [["g", "수원 광교푸른숲도서관 & 호수공원", "0", "수원 영통구 광교호수로 131", "15", "18~22분", "07:00~21:00 (도서관)·공원 상시·주차 3시간 1천원", "푸른숲 책놀이터 동화책 탐독, 호수 산책로 생태 관찰 및 숲속 데크길", "완만한 무장애 호수 데크길 유모차 산책, 호수 바람 쐬기, 잔디밭 아장아장", "도서관 내 쾌적한 유아휴게실(수유실, 기저귀교환대, 정수기), 전 구역 무장애 데크", "백청우칼국수 광교점", "차량 6분", "자극 없는 맑은 해물·백합칼국수, 순한 면발과 야채죽", "https://www.suwonlib.go.kr/gps/", "호수산책·책놀이터"], ["y", "용인 농촌테마파크 & 들꽃광장", "0", "용인 처인구 원삼면 농촌파크로 80-1", "26", "28~32분", "09:30~17:30 (월 휴무)·무료 주차장 완비", "곤충생태체험관 관람, 가을 숲속 놀이터 흔들다리 및 들꽃 미로 찾기", "완만한 잔디마당 산책, 동물농장 아기 염소·토끼 보기, 평상 원두막 휴식", "종합안내소 유모차 무료 대여, 관리동 1층 유아휴게실/수유실 완비", "원삼메밀집", "차량 5분", "자극 없는 들기름 메밀국수 & 어린이 막국수, 담백한 한돈 수육", "https://www.yongin.go.kr/tour/", "잔디광장·곤충체험"], ["d", "화성 동탄여울공원 & 작가정원", "0", "화성시 오산동 1060 (동탄 도심)", "2.5", "7~10분", "24시간 상시 개방·공영주차장(1시간 무료, 이후 저렴)", "넓은 모래놀이터 & 짚라인 놀이터, 감각적인 작가정원 가을꽃 탐방, 킥보드 주행", "도심 속 완벽 평지 잔디밭, 폭신한 유모차 전용 산책로, 잔디마당 아장아장", "공원관리소 내 깨끗한 수유실·가족화장실, 100% 무장애 평지 슬로프", "밀가온 칼국수", "차량 4분", "진하고 맑은 멸치칼국수 & 순한국물 닭칼국수, 부드러운 고기만두", "https://hscity.go.kr/", "도심초근접·모래놀이"], ["s", "2026 수원 홀리스타 페스티벌 (화성행궁광장)", "1", "수원 팔달구 정조로 825 (화성행궁광장)", "17", "25~30분", "10.31(토) 15:00~·광장 공영주차장(1회 2천원선)", "홀리스타 분장 퍼레이드 및 페이스페인팅, 어린이 문화예술 오감체험 부스", "넓은 행궁광장 유모차 주행, 야외 합창·마술쇼 음악 관람, 안전한 보행광장", "화성행궁 안내센터 수유실, 행궁광장 공용 수유실 및 가족화장실, 전 구역 평지", "대원옥 평양냉면·온면", "도보 4분", "슴슴하고 깊은 육수의 순한 온면 및 어린이 온메밀, 소고기 수육", "https://www.swcf.or.kr/", "분장페스티벌·광장"], ["k", "2026 한국민속촌 가을축제 (귀신사바·단풍잔치)", "1", "용인 기흥구 민속촌로 90", "10", "15~18분", "10:00~19:00 (주말 야간 ~21:30)·주차 종일 2천원", "전통 가을 단풍길 탐방, 유쾌한 도깨비 전래동화 마당극, 천연 염색 체험", "고즈넉한 흙길 유모차 산책(메인 동선 평탄화), 나룻배 관람, 소·당나귀 구경", "정문 안내소 유모차 대여소(3천원), 의무실 옆 쾌적한 모유수유실 완비", "민속촌 장터 국수마당", "내부 장터", "맵지 않은 진사골 잔치국수 & 맑은 멸치국수, 담백한 해물파전", "https://www.koreanfolk.co.kr/", "단풍명소·전통체험"], ["c", "국립과천과학관 가을 특별전 (공룡동산 & 유아체험관)", "1", "과천시 상하벌로 110 (대공원역 직결)", "36", "35~40분", "09:30~17:30 (발권 16:30 마감)·일일 주차 5천원", "실물크기 공룡 모형 탐험, 공룡 화석 발굴 체험존, 기초과학관 오감실험", "유아전용 어린이체험관 볼풀·촉감놀이, 유모차 전용 대형 슬로프, 수목원 산책", "본관 1층 초대형 유아휴게실(모유수유실 4실, 기저귀대, 전자레인지), 유모차 50대 무료 대여", "봉덕칼국수 / 밀마을 국수", "차량 6분", "맑고 시원한 바지락 순한 칼국수(안매운맛 주문), 잔치국수", "https://www.sciencecenter.go.kr/", "공룡특별전·실내외"]];
+const STORE_KEY_F = "dongtan_fav_2026-10-30";
+const STORE_KEY_V = "dongtan_vis_2026-10-30";
+let vis = [], fav = [], flt = "a", q = "", srt = "r";
+try {
+  fav = JSON.parse(localStorage.getItem(STORE_KEY_F) || "[]");
+  vis = JSON.parse(localStorage.getItem(STORE_KEY_V) || "[]");
+} catch (e) {}
+function saveState() {
+  try {
+    localStorage.setItem(STORE_KEY_F, JSON.stringify(fav));
+    localStorage.setItem(STORE_KEY_V, JSON.stringify(vis));
+  } catch (e) {}
+}
+
+document.getElementById("kpis").innerHTML = [
+  ["📍 총 추천 장소", "6곳 (상시 3 + 축제 3)"],
+  ["🚗 평균 이동 시간", "19분 (동탄여울 7분 ~ 과천 36분)"],
+  ["👶 유모차·수유실", "100% 무장애 안심 동선"],
+  ["🍜 국수 맛집 매칭", "전 코스 맵지 않은 순한 육수"]
+].map(([k, v]) => `<div class="card kpi-card"><small>${k}</small><strong>${v}</strong></div>`).join("");
+
+function render() {
+  document.getElementById("tabs").innerHTML = [
+    ["a", "전체 (6)"],
+    ["0", "🌳 상시 나들이 (3)"],
+    ["1", "🎪 축제·전시 (3)"],
+    ["n", "⚡ 20분 이내"],
+    ["f", "⭐ 찜 (" + fav.length + ")"],
+    ["v", "✅ 방문 (" + vis.length + ")"]
+  ].map(([k, l]) => `<button data-f="${k}" class="tab-btn ${flt === k ? "active" : ""}">${l}</button>`).join("");
+
+  let L = S.filter(x =>
+    (!q || x.some(s => String(s).toLowerCase().includes(q.toLowerCase()))) &&
+    (flt === "a" || flt === x[2] || (flt === "n" && parseFloat(x[4]) <= 20) || (flt === "f" && fav.includes(x[0])) || (flt === "v" && vis.includes(x[0])))
+  );
+  if (srt === "t") L.sort((a, b) => parseFloat(a[4]) - parseFloat(b[4]));
+  if (srt === "n") L.sort((a, b) => a[1].localeCompare(b[1]));
+
+  const gridEl = document.getElementById("grid");
+  if (!L.length) {
+    gridEl.innerHTML = `<div class="empty-state">조건에 맞는 추천 장소가 없습니다. 필터나 검색어를 초기화해 보세요.</div>`;
+    return;
+  }
+
+  gridEl.innerHTML = L.map(x => `
+    <article class="card spot-card ${vis.includes(x[0]) ? "visited" : ""}">
+      <div>
+        <div class="spot-top">
+          <span class="badge ${+x[2] ? "fest" : ""}">${+x[2] ? "🎪 축제·전시" : "🌳 상시 나들이"} · ${x[14]}</span>
+          <button class="fav-btn ${fav.includes(x[0]) ? "on" : ""}" data-a="f" data-i="${x[0]}">${fav.includes(x[0]) ? "★ 찜" : "☆ 찜"}</button>
+        </div>
+        <h2 class="spot-title" style="margin:8px 0 4px;">${x[1]}</h2>
+        <div class="spot-meta">🚗 편도 ${x[5]} · ${x[3]}</div>
+        <div class="age-box" style="margin-top:10px;">
+          <div>👧 <b>7세 딸:</b> ${x[7]}</div>
+          <div>👦 <b>3세 아들:</b> ${x[8]}</div>
+        </div>
+      </div>
+      <div>
+        <div class="food-box">
+          <div>🍜 <strong>${x[10]}</strong> (${x[11]})</div>
+          <div style="margin-top:2px;">${x[12]}</div>
+        </div>
+        <div class="spot-actions" style="margin-top:10px;">
+          <button class="btn btn-dark" data-a="d" data-i="${x[0]}">상세 가이드</button>
+          <button class="btn ${vis.includes(x[0]) ? "btn-primary" : ""}" data-a="v" data-i="${x[0]}">${vis.includes(x[0]) ? "✓ 다녀왔음" : "다녀왔어요"}</button>
+        </div>
+      </div>
+    </article>
+  `).join("");
+}
+
+document.getElementById("tabs").onclick = e => {
+  const b = e.target.closest("button");
+  if (b) { flt = b.dataset.f; render(); }
+};
+
+document.getElementById("grid").onclick = e => {
+  const b = e.target.closest("button");
+  if (!b) return;
+  const { a, i } = b.dataset;
+  const x = S.find(s => s[0] === i);
+  if (a === "f") {
+    fav.includes(i) ? fav.splice(fav.indexOf(i), 1) : fav.push(i);
+    saveState();
+    render();
+  } else if (a === "v") {
+    vis.includes(i) ? vis.splice(vis.indexOf(i), 1) : vis.push(i);
+    saveState();
+    render();
+  } else if (a === "d" && x) {
+    document.getElementById("modalTitle").textContent = x[1];
+    document.getElementById("modalBody").innerHTML = `
+      <div class="age-box">
+        <div><b>🚗 이동 및 주소:</b> 편도 ${x[5]} (${x[3]})</div>
+        <div><b>🕒 운영 및 주차:</b> ${x[6]}</div>
+      </div>
+      <div class="age-box">
+        <div>👧 <b>7세 딸 포인트:</b> ${x[7]}</div>
+        <div>👦 <b>3세 아들 포인트:</b> ${x[8]}</div>
+        <div>👶 <b>유모차·수유실·화장실:</b> ${x[9]}</div>
+      </div>
+      <div class="food-box">
+        <div>🍜 <strong>${x[10]}</strong> (${x[11]})</div>
+        <div>${x[12]}</div>
+      </div>
+      <div class="modal-footer">
+        <a href="${x[13]}" target="_blank" rel="noopener noreferrer" class="btn btn-primary">🌐 공식 누리집 바로가기</a>
+        <button class="btn" onclick="document.getElementById('modalBox').classList.remove('open')">닫기</button>
+      </div>
+    `;
+    document.getElementById("modalBox").classList.add("open");
+  }
+};
+
+document.getElementById("ckBtn").onclick = () => {
+  document.getElementById("modalTitle").textContent = "📋 주말 나들이 필수 준비물 팩";
+  document.getElementById("modalBody").innerHTML = [
+    ["👧 7세 딸", ["가을 야외활동용 얇은 바람막이", "개인 텀블러 및 보온 물병", "편한 운동화 및 여벌 양말", "야외 돗자리 및 간단 간식"]],
+    ["👦 3세 아들", ["휴대용 경량 유모차", "국수용 전용 실리콘 가위", "기저귀 5개 및 물티슈", "체온 조절용 여벌 겉옷 1벌"]],
+    ["👨‍👩‍👧‍👦 가족 공통", ["피크닉 매트 및 무릎담요", "비상 상비약 (밴드·연고)", "물티슈 및 휴지"]]
+  ].map(([t, items]) => `
+    <div class="age-box">
+      <b style="margin-bottom:4px;">${t}</b>
+      ${items.map(l => `<label class="check-item"><input type="checkbox"><span>${l}</span></label>`).join("")}
+    </div>
+  `).join("") + `<div class="modal-footer"><button class="btn btn-primary" onclick="document.getElementById('modalBox').classList.remove('open')">확인</button></div>`;
+  document.getElementById("modalBox").classList.add("open");
+};
+
+document.getElementById("modalClose").onclick = () => document.getElementById("modalBox").classList.remove("open");
+document.getElementById("modalBox").onclick = e => {
+  if (e.target === document.getElementById("modalBox")) document.getElementById("modalBox").classList.remove("open");
+};
+document.getElementById("qInput").oninput = e => { q = e.target.value; render(); };
+document.getElementById("sortSel").onchange = e => { srt = e.target.value; render(); };
+
+render();
+</script>
+</body>
+</html>

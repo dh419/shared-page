@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>동탄 주말 나들이 가이드 (10.24~10.25)</title>
+<style>
+  :root {
+    --primary: #059669;
+    --primary-dark: #047857;
+    --primary-light: #d1fae5;
+    --primary-text: #065f46;
+    --bg: #f8fafc;
+    --surface: #ffffff;
+    --border: #e2e8f0;
+    --text: #0f172a;
+    --muted: #475569;
+    --amber-bg: #fffbeb;
+    --amber-border: #fde68a;
+    --amber-text: #92400e;
+    --shadow-sm: 0 1px 2px rgba(15,23,42,0.05);
+    --shadow-md: 0 4px 12px rgba(15,23,42,0.08);
+    --radius: 14px;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Pretendard', 'Apple SD Gothic Neo', 'Malgun Gothic', -apple-system, BlinkMacSystemFont, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    font-size: 14px;
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+  }
+  .container { max-width: 1080px; margin: 0 auto; padding: 0 16px; }
+  header {
+    background: linear-gradient(135deg, #059669 0%, #047857 100%);
+    color: #fff;
+    padding: 20px 0;
+    box-shadow: var(--shadow-md);
+  }
+  .header-inner {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .profile-pill {
+    display: inline-block;
+    background: rgba(255,255,255,0.16);
+    padding: 4px 10px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 600;
+    margin-bottom: 6px;
+  }
+  h1 { font-size: 22px; font-weight: 800; letter-spacing: -0.02em; }
+  .header-actions { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+  .weather-badge {
+    background: rgba(255,255,255,0.18);
+    padding: 7px 12px;
+    border-radius: 10px;
+    font-size: 13px;
+    font-weight: 600;
+  }
+  .btn {
+    border: 1px solid var(--border);
+    background: var(--surface);
+    color: var(--text);
+    padding: 8px 13px;
+    border-radius: 10px;
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    transition: all 0.15s ease;
+  }
+  .btn:hover { background: #f1f5f9; }
+  .btn-primary { background: var(--primary); color: #fff; border-color: var(--primary); }
+  .btn-primary:hover { background: var(--primary-dark); }
+  .btn-dark { background: #1e293b; color: #fff; border-color: #1e293b; }
+  .btn-dark:hover { background: #0f172a; }
+  .btn-light { background: #fff; color: var(--primary-dark); border-color: #fff; }
+  .btn-light:hover { background: #ecfdf5; }
+
+  main { padding: 18px 0 36px; }
+  .kpi-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 12px;
+    margin-bottom: 14px;
+  }
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 15px;
+    box-shadow: var(--shadow-sm);
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+  }
+  .kpi-card small { color: var(--muted); font-size: 12px; font-weight: 600; display: block; margin-bottom: 4px; }
+  .kpi-card strong { font-size: 15px; font-weight: 800; color: var(--text); }
+
+  .toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 12px;
+  }
+  .tabs { display: flex; flex-wrap: wrap; gap: 6px; }
+  .tab-btn {
+    border: 1px solid var(--border);
+    background: #f8fafc;
+    color: var(--muted);
+    padding: 7px 12px;
+    border-radius: 999px;
+    font-size: 12.5px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.15s ease;
+  }
+  .tab-btn.active { background: var(--primary); color: #fff; border-color: var(--primary); }
+  .search-wrap { display: flex; gap: 8px; flex-wrap: wrap; }
+  input[type="search"], select {
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 7px 11px;
+    font-size: 13px;
+    background: #fff;
+    color: var(--text);
+  }
+  .notice-banner {
+    background: var(--amber-bg);
+    border: 1px solid var(--amber-border);
+    color: var(--amber-text);
+    border-radius: 12px;
+    padding: 10px 14px;
+    font-size: 13px;
+    font-weight: 600;
+    margin-bottom: 16px;
+  }
+  .spots-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(315px, 1fr));
+    gap: 14px;
+  }
+  .spot-card { display: flex; flex-direction: column; justify-content: space-between; gap: 10px; }
+  .spot-card:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); }
+  .spot-card.visited { border: 2px solid #10b981; background: #f0fdf4; }
+  .spot-top { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
+  .badge {
+    font-size: 11.5px;
+    font-weight: 700;
+    padding: 3px 9px;
+    border-radius: 999px;
+    background: var(--primary-light);
+    color: var(--primary-text);
+  }
+  .badge.fest { background: #fef3c7; color: #92400e; }
+  .fav-btn {
+    border: 1px solid var(--border);
+    background: #fff;
+    padding: 4px 9px;
+    border-radius: 8px;
+    font-size: 12px;
+    font-weight: 700;
+    cursor: pointer;
+  }
+  .fav-btn.on { background: #fef9c3; border-color: #fde047; color: #854d0e; }
+  .spot-title { font-size: 16px; font-weight: 800; color: var(--text); line-height: 1.35; }
+  .spot-meta { font-size: 12.5px; font-weight: 600; color: var(--primary-dark); }
+  .age-box {
+    background: #f8fafc;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 9px 11px;
+    font-size: 12.5px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .food-box {
+    background: var(--amber-bg);
+    border: 1px solid var(--amber-border);
+    border-radius: 10px;
+    padding: 8px 11px;
+    font-size: 12.5px;
+  }
+  .food-box strong { color: var(--amber-text); }
+  .spot-actions { display: flex; justify-content: space-between; align-items: center; gap: 8px; margin-top: 2px; }
+  .empty-state {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 40px 20px;
+    color: var(--muted);
+    background: var(--surface);
+    border: 1px dashed var(--border);
+    border-radius: var(--radius);
+  }
+
+  .modal-backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(15,23,42,0.55);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 16px;
+    z-index: 50;
+  }
+  .modal-backdrop.open { display: flex; }
+  .modal-panel {
+    background: var(--surface);
+    max-width: 520px;
+    width: 100%;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 20px 40px rgba(15,23,42,0.22);
+    max-height: 90vh;
+    display: flex;
+    flex-direction: column;
+  }
+  .modal-header {
+    background: var(--primary);
+    color: #fff;
+    padding: 14px 18px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: 800;
+    font-size: 15px;
+  }
+  .modal-close {
+    background: rgba(255,255,255,0.2);
+    border: none;
+    color: #fff;
+    width: 28px;
+    height: 28px;
+    border-radius: 8px;
+    font-weight: 800;
+    cursor: pointer;
+  }
+  .modal-body { padding: 16px 18px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; }
+  .check-item { display: flex; align-items: center; gap: 8px; padding: 3px 0; cursor: pointer; font-size: 13px; }
+  .modal-footer { display: flex; justify-content: flex-end; gap: 8px; margin-top: 4px; }
+</style>
+</head>
+<body>
+<header>
+  <div class="container header-inner">
+    <div>
+      <div class="profile-pill">📍 동탄반석로 71 출발 · 👧 7세 딸 & 👦 3세 아들 · 🍜 순한 국수 맛집</div>
+      <h1>주말 나들이 &amp; 축제 큐레이션 (10.24~10.25)</h1>
+    </div>
+    <div class="header-actions">
+      <div class="weather-badge">☀️ 12~22℃ 쾌청·미세먼지 좋음</div>
+      <button id="ckBtn" class="btn btn-light">📋 준비물 팩</button>
+    </div>
+  </div>
+</header>
+
+<main class="container">
+  <section id="kpis" class="kpi-grid"></section>
+
+  <section class="card toolbar">
+    <div id="tabs" class="tabs"></div>
+    <div class="search-wrap">
+      <input id="qInput" type="search" placeholder="장소, 국수, 키워드 검색...">
+      <select id="sortSel">
+        <option value="r">추천순</option>
+        <option value="t">가까운순</option>
+        <option value="n">이름순</option>
+      </select>
+    </div>
+  </section>
+
+  <div class="notice-banner">💡 10.11 방문한 오산 죽미령 평화공원 & 백청우칼국수 오산점을 로테이션 제외하고 선별한 6곳입니다.</div>
+
+  <section id="grid" class="spots-grid"></section>
+</main>
+
+<div id="modalBox" class="modal-backdrop">
+  <div class="modal-panel">
+    <div class="modal-header">
+      <span id="modalTitle"></span>
+      <button id="modalClose" class="modal-close">✕</button>
+    </div>
+    <div id="modalBody" class="modal-body"></div>
+  </div>
+</div>
+
+<script>
+const S = [["o", "오산 맑음나눔터공원 & 에코리움", "0", "오산 탑동대우길 39", "13", "12~14분", "월 휴관·무료주차", "전망대·곤충체험, 성곽 미끄럼틀·짚라인", "평지 잔디밭, 탄성바닥 유아미끄럼틀, 데크 유모차", "엘리베이터(4층), 실내 수유실·기저귀교환대", "백청우칼국수 오산점", "5분", "맑은 해물손칼국수·만두", "https://www.osan.go.kr/", "생태관·놀이터"], ["m", "용인 기흥 만골근린공원 숲놀이터", "0", "기흥구 상갈동", "16", "15~18분", "상시개방·무료주차", "성곽 놀이대 그물다리, 원통 미끄럼틀 모험", "푹신한 탄성매트·유아용 완만한 미끄럼틀", "무장애 경사로 유모차 진입, 기흥도서관 수유실", "신갈 총각손칼국수", "5분", "순한 멸치 손칼국수(면리필)", "https://www.yongin.go.kr/", "대형숲놀이터"], ["b", "화성 우리꽃식물원 (한옥 온실)", "0", "팔탄면 3.1만세로 777-17", "28", "25~30분", "09~18시(월 휴관)·무료주차", "한옥 유리온실 탐험, 스탬프투어, 숲놀이터", "비단잉어 구경, 무장애 목재데크 유모차 산책", "유모차 무료대여, 수유실·가족화장실·경사로", "팔탄 바지락손칼국수", "5분", "맑은 바지락칼국수·굴림만두", "https://botanic.hscity.go.kr/botanic/index.jsp", "한옥온실·단풍"], ["i", "2026 제23회 이천쌀문화축제", "1", "이천농업테마공원", "47", "45~50분", "10.22~26·임시주차/셔틀", "600m 가래떡 뽑기, 짚풀공예, 마당극 체험", "푹신한 볏짚 미끄럼틀 놀이터, 가마솥밥·떡 시식", "임시 수유실·기저귀교환 부스, 포장동선 유모차", "축제장 가마솥밥 & 칼국수", "5분", "2천원 가마솥밥 & 바지락칼국수", "http://www.ricefestival.or.kr/", "가을먹거리축제"], ["t", "2026 조선왕릉축전 피날레 (융건릉)", "1", "화성 융릉·건릉", "18", "15~20분", "10.17~25·공영주차장", "왕릉사관록 암호미션, 숲속 책마당, 음악회", "소나무 숲 평탄한 흙길 유모차 산책, 솔방울 줍기", "매표소 수유실·가족화장실 완비, 무장애 솔숲길", "융건릉맨날국수 화성점", "1분", "동죽조개칼국수 & 배말톳김밥", "https://jrtf.or.kr/brand/info/", "역사미션·솔숲"], ["a", "2026 안성팜랜드 코스목동 축제", "1", "안성 공도읍 대신두길 28", "32", "30~35분", "~11.1 시즌·무료주차", "핑크뮬리·코스모스 언덕, 양·알파카 먹이주기", "가족 전동자전거 탑승, 아기 양 만지기, 유모차 산책", "정문 유모차 대여소, 쾌적한 수유실·가족화장실", "공도 바지락칼국수·만두", "6분", "순한 바지락칼국수 & 왕만두", "https://nhasfarmland.com/new/comm/comm01.php?ptype=view&idx=8310&code=notice", "가을꽃·동물목장"]];
+const STORE_KEY_F = "dongtan_fav_2026-10-23";
+const STORE_KEY_V = "dongtan_vis_2026-10-23";
+let vis = [], fav = [], flt = "a", q = "", srt = "r";
+try {
+  fav = JSON.parse(localStorage.getItem(STORE_KEY_F) || "[]");
+  vis = JSON.parse(localStorage.getItem(STORE_KEY_V) || "[]");
+} catch (e) {}
+function saveState() {
+  try {
+    localStorage.setItem(STORE_KEY_F, JSON.stringify(fav));
+    localStorage.setItem(STORE_KEY_V, JSON.stringify(vis));
+  } catch (e) {}
+}
+
+document.getElementById("kpis").innerHTML = [
+  ["📍 총 추천 장소", "6곳 (상시 3 + 축제 3)"],
+  ["🚗 평균 이동 시간", "24분 (오산 13분 ~ 안성 32분)"],
+  ["👶 유모차·수유실", "100% 무장애 안심 동선"],
+  ["🍜 국수 맛집 매칭", "전 코스 맵지 않은 순한 육수"]
+].map(([k, v]) => `<div class="card kpi-card"><small>${k}</small><strong>${v}</strong></div>`).join("");
+
+function render() {
+  document.getElementById("tabs").innerHTML = [
+    ["a", "전체 (6)"],
+    ["0", "🌳 상시 나들이 (3)"],
+    ["1", "🎪 축제·전시 (3)"],
+    ["n", "⚡ 20분 이내"],
+    ["f", "⭐ 찜 (" + fav.length + ")"],
+    ["v", "✅ 방문 (" + vis.length + ")"]
+  ].map(([k, l]) => `<button data-f="${k}" class="tab-btn ${flt === k ? "active" : ""}">${l}</button>`).join("");
+
+  let L = S.filter(x =>
+    (!q || x.some(s => String(s).toLowerCase().includes(q.toLowerCase()))) &&
+    (flt === "a" || flt === x[2] || (flt === "n" && parseFloat(x[4]) <= 20) || (flt === "f" && fav.includes(x[0])) || (flt === "v" && vis.includes(x[0])))
+  );
+  if (srt === "t") L.sort((a, b) => parseFloat(a[4]) - parseFloat(b[4]));
+  if (srt === "n") L.sort((a, b) => a[1].localeCompare(b[1]));
+
+  const gridEl = document.getElementById("grid");
+  if (!L.length) {
+    gridEl.innerHTML = `<div class="empty-state">조건에 맞는 추천 장소가 없습니다. 필터나 검색어를 초기화해 보세요.</div>`;
+    return;
+  }
+
+  gridEl.innerHTML = L.map(x => `
+    <article class="card spot-card ${vis.includes(x[0]) ? "visited" : ""}">
+      <div>
+        <div class="spot-top">
+          <span class="badge ${+x[2] ? "fest" : ""}">${+x[2] ? "🎪 축제·전시" : "🌳 상시 나들이"} · ${x[14]}</span>
+          <button class="fav-btn ${fav.includes(x[0]) ? "on" : ""}" data-a="f" data-i="${x[0]}">${fav.includes(x[0]) ? "★ 찜" : "☆ 찜"}</button>
+        </div>
+        <h2 class="spot-title" style="margin:8px 0 4px;">${x[1]}</h2>
+        <div class="spot-meta">🚗 편도 ${x[5]} · ${x[3]}</div>
+        <div class="age-box" style="margin-top:10px;">
+          <div>👧 <b>7세 딸:</b> ${x[7]}</div>
+          <div>👦 <b>3세 아들:</b> ${x[8]}</div>
+        </div>
+      </div>
+      <div>
+        <div class="food-box">
+          <div>🍜 <strong>${x[10]}</strong> (${x[11]})</div>
+          <div style="margin-top:2px;">${x[12]}</div>
+        </div>
+        <div class="spot-actions" style="margin-top:10px;">
+          <button class="btn btn-dark" data-a="d" data-i="${x[0]}">상세 가이드</button>
+          <button class="btn ${vis.includes(x[0]) ? "btn-primary" : ""}" data-a="v" data-i="${x[0]}">${vis.includes(x[0]) ? "✓ 다녀왔음" : "다녀왔어요"}</button>
+        </div>
+      </div>
+    </article>
+  `).join("");
+}
+
+document.getElementById("tabs").onclick = e => {
+  const b = e.target.closest("button");
+  if (b) { flt = b.dataset.f; render(); }
+};
+
+document.getElementById("grid").onclick = e => {
+  const b = e.target.closest("button");
+  if (!b) return;
+  const { a, i } = b.dataset;
+  const x = S.find(s => s[0] === i);
+  if (a === "f") {
+    fav.includes(i) ? fav.splice(fav.indexOf(i), 1) : fav.push(i);
+    saveState();
+    render();
+  } else if (a === "v") {
+    vis.includes(i) ? vis.splice(vis.indexOf(i), 1) : vis.push(i);
+    saveState();
+    render();
+  } else if (a === "d" && x) {
+    document.getElementById("modalTitle").textContent = x[1];
+    document.getElementById("modalBody").innerHTML = `
+      <div class="age-box">
+        <div><b>🚗 이동 및 주소:</b> 편도 ${x[5]} (${x[3]})</div>
+        <div><b>🕒 운영 및 주차:</b> ${x[6]}</div>
+      </div>
+      <div class="age-box">
+        <div>👧 <b>7세 딸 포인트:</b> ${x[7]}</div>
+        <div>👦 <b>3세 아들 포인트:</b> ${x[8]}</div>
+        <div>👶 <b>유모차·수유실·화장실:</b> ${x[9]}</div>
+      </div>
+      <div class="food-box">
+        <div>🍜 <strong>${x[10]}</strong> (${x[11]})</div>
+        <div>${x[12]}</div>
+      </div>
+      <div class="modal-footer">
+        <a href="${x[13]}" target="_blank" rel="noopener noreferrer" class="btn btn-primary">🌐 공식 누리집 바로가기</a>
+        <button class="btn" onclick="document.getElementById('modalBox').classList.remove('open')">닫기</button>
+      </div>
+    `;
+    document.getElementById("modalBox").classList.add("open");
+  }
+};
+
+document.getElementById("ckBtn").onclick = () => {
+  document.getElementById("modalTitle").textContent = "📋 주말 나들이 필수 준비물 팩";
+  document.getElementById("modalBody").innerHTML = [
+    ["👧 7세 딸", ["가을 야외활동용 얇은 바람막이", "개인 텀블러 및 보온 물병", "편한 운동화 및 여벌 양말", "야외 돗자리 및 간단 간식"]],
+    ["👦 3세 아들", ["휴대용 경량 유모차", "국수용 전용 실리콘 가위", "기저귀 5개 및 물티슈", "체온 조절용 여벌 겉옷 1벌"]],
+    ["👨‍👩‍👧‍👦 가족 공통", ["피크닉 매트 및 무릎담요", "비상 상비약 (밴드·연고)", "물티슈 및 휴지"]]
+  ].map(([t, items]) => `
+    <div class="age-box">
+      <b style="margin-bottom:4px;">${t}</b>
+      ${items.map(l => `<label class="check-item"><input type="checkbox"><span>${l}</span></label>`).join("")}
+    </div>
+  `).join("") + `<div class="modal-footer"><button class="btn btn-primary" onclick="document.getElementById('modalBox').classList.remove('open')">확인</button></div>`;
+  document.getElementById("modalBox").classList.add("open");
+};
+
+document.getElementById("modalClose").onclick = () => document.getElementById("modalBox").classList.remove("open");
+document.getElementById("modalBox").onclick = e => {
+  if (e.target === document.getElementById("modalBox")) document.getElementById("modalBox").classList.remove("open");
+};
+document.getElementById("qInput").oninput = e => { q = e.target.value; render(); };
+document.getElementById("sortSel").onchange = e => { srt = e.target.value; render(); };
+
+render();
+</script>
+</body>
+</html>
