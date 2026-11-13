@@ -12,7 +12,7 @@ TEMPLATES_DIR = os.path.join(REPO_ROOT, 'templates')
 MASTER_HTML_PATH = os.path.join(TEMPLATES_DIR, 'master_dashboard.html')
 
 GEMINI_API_KEY = os.environ.get('GEMINI_API_KEY')
-GEMINI_MODEL = os.environ.get('GEMINI_MODEL', 'gemini-3.8-flash')
+GEMINI_MODEL = os.environ.get('GEMINI_MODEL', 'gemini-4-hydrogen')
 THINKING_BUDGET = int(os.environ.get('THINKING_BUDGET', '1024'))
 
 def get_target_weekend_dates():

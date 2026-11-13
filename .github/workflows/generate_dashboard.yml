@@ -9,7 +9,7 @@ on:
       model:
         description: 'Gemini 모델 선택'
         required: false
-        default: 'gemini-3.8-flash'
+        default: 'gemini-4-hydrogen'
         type: choice
         options:
           - 'gemini-4-hydrogen'
