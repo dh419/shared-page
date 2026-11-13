@@ -4,7 +4,21 @@ on:
   schedule:
     # 매주 금요일 오후 16:00 KST (UTC 금요일 07:00) 자동 무인 실행
     - cron: '0 7 * * 5'
-  workflow_dispatch: # 웹에서 필요할 때 수동 즉시 실행 가능
+  workflow_dispatch:
+    inputs:
+      model:
+        description: 'Gemini 모델 선택'
+        required: false
+        default: 'gemini-3.8-flash'
+        type: choice
+        options:
+          - 'gemini-3.8-flash'
+          - 'gemini-4-argon'
+      thinking_budget:
+        description: 'Thinking 추론 예산 (토큰 수, 0이면 비활성화)'
+        required: false
+        default: '1024'
+        type: string
 
 jobs:
   generate-and-publish:
@@ -29,6 +43,8 @@ jobs:
       - name: Run Gemini Search & Generate Dashboard
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API || secrets.GEMINI_API_KEY }}
+          GEMINI_MODEL: ${{ inputs.model || 'gemini-3.8-flash' }}
+          THINKING_BUDGET: ${{ inputs.thinking_budget || '1024' }}
         run: |
           python scripts/generate_dashboard.py
 

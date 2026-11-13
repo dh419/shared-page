@@ -11,10 +11,11 @@ TEMPLATES_DIR = os.path.join(REPO_ROOT, 'templates')
 MASTER_HTML_PATH = os.path.join(TEMPLATES_DIR, 'master_dashboard.html')
 
 GEMINI_API_KEY = os.environ.get('GEMINI_API_KEY')
+GEMINI_MODEL = os.environ.get('GEMINI_MODEL', 'gemini-3.8-flash')
+THINKING_BUDGET = int(os.environ.get('THINKING_BUDGET', '1024'))
 
 def get_target_weekend_dates():
     now = datetime.now()
-    # Find coming Saturday and Sunday
     days_until_sat = (5 - now.weekday()) % 7
     if days_until_sat == 0 and now.weekday() != 5:
         days_until_sat = 7
@@ -25,7 +26,6 @@ def get_target_weekend_dates():
     return sat, sun, label
 
 def calculate_ages(year):
-    # Daughter born ~2020, Son born ~2024
     girl_age = year - 2020 + 1
     boy_age = year - 2024 + 1
     return girl_age, boy_age
@@ -82,18 +82,23 @@ def generate_dashboard():
 }}
 """
 
-    print(f"Calling Gemini API with Google Search for weekend {weekend_label}...")
+    print(f"Calling Gemini API ({GEMINI_MODEL}, thinking_budget={THINKING_BUDGET}) with Google Search for weekend {weekend_label}...")
+    
+    # Configure thinking config if supported
+    config_args = {
+        'tools': [types.Tool(google_search=types.GoogleSearch())],
+        'temperature': 0.3,
+    }
+    if THINKING_BUDGET > 0:
+        config_args['thinking_config'] = types.ThinkingConfig(thinking_budget=THINKING_BUDGET)
+
     response = client.models.generate_content(
-        model='gemini-2.5-flash',
+        model=GEMINI_MODEL,
         contents=prompt,
-        config=types.GenerateContentConfig(
-            tools=[types.Tool(google_search=types.GoogleSearch())],
-            temperature=0.3,
-        ),
+        config=types.GenerateContentConfig(**config_args),
     )
 
     raw_text = response.text.strip()
-    # Strip markdown if any
     raw_text = re.sub(r'^```(?:json)?\s*', '', raw_text)
     raw_text = re.sub(r'\s*```$', '', raw_text)
     
@@ -101,18 +106,15 @@ def generate_dashboard():
     weather_pills_html = data['weatherPillsHtml']
     spots_json_str = json.dumps(data['spots'], ensure_ascii=False)
 
-    # Read Master Template
     with open(MASTER_HTML_PATH, 'r', encoding='utf-8') as f:
         template = f.read()
 
-    # Fill template placeholders
     html = template.replace('{{WEEKEND_LABEL}}', weekend_label)
     html = html.replace('{{GIRL_AGE}}', str(girl_age))
     html = html.replace('{{BOY_AGE}}', str(boy_age))
     html = html.replace('{{WEATHER_PILLS_HTML}}', weather_pills_html)
     html = html.replace('{{SPOTS_JSON}}', spots_json_str)
 
-    # Save to docs/YYYY-MM/YYYY-MM-DD.html
     month_dir = os.path.join(DOCS_DIR, current_month_str)
     os.makedirs(month_dir, exist_ok=True)
     out_file = os.path.join(month_dir, f"{today_str}.html")
