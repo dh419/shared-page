@@ -2,9 +2,9 @@ name: Sync Dashboard from Google Drive
 
 on:
   schedule:
-    # 매주 월/수/금/일 3시간마다 주기적 동기화 감지 (UTC 기준)
-    - cron: '0 */3 * * *'
-  workflow_dispatch: # 수동 즉시 실행 지원
+    # 매주 금요일 오전 07:00 KST (UTC 목요일 22:00) 자동 동기화 감지
+    - cron: '0 22 * * 4'
+  workflow_dispatch:        # 필요시 GitHub 웹에서 수동 즉시 실행 가능
 
 jobs:
   sync-and-deploy:
