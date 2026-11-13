@@ -9,3 +9,10 @@
 
 ## 디렉터리 구조
 - `docs/YYYY-MM/`: 주차별 나들이 큐레이션 HTML (`GitHub Pages` 배포 대상)
+
+## 주말 나들이 큐레이션 스킬 체이닝 (Multi-Skill Pipeline)
+주말 나들이 대시보드 생성 시 아래 전역 스킬을 유기적으로 복합 발동합니다:
+1. **`kids-activity-curator`**: 동탄 출발 기준 6선 코스·이동시간·유모차/놀이터·비매운 맛집 큐레이션 및 `hub-data.json` 동기화
+2. **`html-report-shell`** + **`svg-micro-animations`**: 무깜빡임 테마 복원, 카드 호버 리프트 및 `prefers-reduced-motion` 가드 적용
+3. **`baoyu-infographic`**: 필요 시 주말 6선 코스를 가족 공유용 한 장 요약 인포그래픽으로 생성
+4. **`webapp-testing` / `agent-browser`**: 생성된 HTML·허브(`index.html`, `hub-data.json`)의 모바일 레이아웃·제목/링크 사후 검증
