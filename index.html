@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>주간 대시보드 아카이브 허브</title>
+  <title>가족 주말 나들이 & 행사 주말 나들이 허브</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {
@@ -46,8 +46,8 @@
           📊
         </div>
         <div>
-          <h1 class="text-sm font-semibold text-white tracking-tight leading-none">대시보드 허브</h1>
-          <p class="text-[11px] text-slate-400 mt-1">Weekly Reports Hub</p>
+          <h1 class="text-sm font-semibold text-white tracking-tight leading-none">주말 나들이 허브</h1>
+          <p class="text-[11px] text-slate-400 mt-1">Family Weekend Dashboard</p>
         </div>
       </div>
       <button class="md:hidden text-slate-400 hover:text-white p-1" onclick="toggleSidebar()">
@@ -58,7 +58,7 @@
     <!-- Quick Search / Filter -->
     <div class="p-3 border-b border-slate-800">
       <div class="relative">
-        <input type="text" id="searchInput" placeholder="주차 또는 키워드 검색..." oninput="filterReports()" 
+        <input type="text" id="searchInput" placeholder="날짜, 장소, 축제 검색..." oninput="filterReports()" 
           class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-1.5 text-xs text-slate-200 placeholder-slate-500 focus:outline-none focus:border-indigo-500 transition-colors">
         <span class="absolute right-2.5 top-2 text-[10px] text-slate-600">Ctrl+K</span>
       </div>
@@ -90,7 +90,7 @@
         <div class="min-w-0">
           <div class="flex items-center gap-2">
             <span id="currentBadge" class="px-2 py-0.5 rounded text-[10px] font-semibold bg-indigo-500/10 text-indigo-400 border border-indigo-500/20">W00</span>
-            <h2 id="currentTitle" class="text-sm font-semibold text-white truncate">대시보드를 선택하세요</h2>
+            <h2 id="currentTitle" class="text-sm font-semibold text-white truncate">나들이 대시보드를 선택하세요</h2>
           </div>
         </div>
       </div>

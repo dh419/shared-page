@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>은우·우준이 주말 나들이 & 행사 대시보드</title>
+  <style>
+    :root {
+      --bg: #f8fafc;
+      --card: #ffffff;
+      --primary: #2563eb;
+      --primary-soft: #dbeafe;
+      --green: #059669;
+      --green-soft: #d1fae5;
+      --purple: #7c3aed;
+      --purple-soft: #ede9fe;
+      --amber: #d97706;
+      --amber-soft: #fef3c7;
+      --text: #0f172a;
+      --muted: #64748b;
+      --border: #e2e8f0;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body {
+      width: 100%;
+      height: 100%;
+      background: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Pretendard", "Malgun Gothic", sans-serif;
+    }
+    .container {
+      width: 100%;
+      max-width: 100%;
+      min-height: 100vh;
+      padding: 20px;
+    }
+    header {
+      background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
+      color: #fff;
+      border-radius: 16px;
+      padding: 24px;
+      margin-bottom: 20px;
+      box-shadow: 0 8px 20px rgba(37, 99, 235, 0.18);
+    }
+    header .sub { font-size: 0.85rem; opacity: 0.9; margin-bottom: 6px; }
+    header h1 { font-size: 1.5rem; font-weight: 800; margin-bottom: 12px; }
+    .weather-strip { display: flex; flex-wrap: wrap; gap: 10px; font-size: 0.88rem; }
+    .weather-pill {
+      background: rgba(255,255,255,0.18);
+      padding: 6px 14px;
+      border-radius: 999px;
+    }
+    .filter-bar {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      padding-bottom: 10px;
+      margin-bottom: 20px;
+    }
+    .filter-btn {
+      border: 1px solid var(--border);
+      background: var(--card);
+      color: var(--text);
+      padding: 9px 16px;
+      border-radius: 999px;
+      font-size: 0.9rem;
+      font-weight: 700;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: 0.15s;
+    }
+    .filter-btn.active, .filter-btn:hover {
+      background: var(--primary);
+      color: #fff;
+      border-color: var(--primary);
+    }
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 18px;
+    }
+    .spot-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 20px;
+      cursor: pointer;
+      transition: transform 0.16s ease, box-shadow 0.16s ease, border-color 0.16s ease;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .spot-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 24px rgba(15, 23, 42, 0.09);
+      border-color: #93c5fd;
+    }
+    .badges { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 10px; }
+    .badge { font-size: 0.75rem; font-weight: 700; padding: 4px 10px; border-radius: 6px; }
+    .badge.outing { background: var(--green-soft); color: var(--green); }
+    .badge.festival { background: var(--purple-soft); color: var(--purple); }
+    .badge.sat { background: var(--amber-soft); color: var(--amber); }
+    .badge.sun { background: var(--primary-soft); color: var(--primary); }
+    .spot-title { font-size: 1.15rem; font-weight: 800; margin-bottom: 6px; }
+    .spot-drive { font-size: 0.85rem; color: var(--muted); margin-bottom: 12px; font-weight: 600; }
+    .spot-summary { font-size: 0.9rem; color: #334155; margin-bottom: 16px; }
+    .spot-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-top: 1px dashed var(--border);
+      padding-top: 12px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: var(--primary);
+    }
+    .noodle-tag {
+      background: #fffbeb;
+      color: #b45309;
+      border: 1px solid #fde68a;
+      padding: 4px 10px;
+      border-radius: 6px;
+      font-size: 0.8rem;
+    }
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.6);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      z-index: 1000;
+    }
+    .modal-backdrop.open { display: flex; }
+    .modal {
+      background: #fff;
+      border-radius: 20px;
+      max-width: 560px;
+      width: 100%;
+      padding: 24px;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.25);
+      max-height: 90vh;
+      overflow-y: auto;
+    }
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 16px;
+    }
+    .close-btn {
+      background: #f1f5f9;
+      border: none;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      font-size: 1.2rem;
+      cursor: pointer;
+      font-weight: bold;
+    }
+    .detail-box {
+      background: #f8fafc;
+      border-radius: 12px;
+      padding: 14px;
+      margin-bottom: 12px;
+      font-size: 0.92rem;
+    }
+    .detail-box strong { display: block; margin-bottom: 6px; color: #0f172a; }
+    .noodle-detail {
+      background: #fffbeb;
+      border: 1px solid #fde68a;
+      border-radius: 12px;
+      padding: 14px;
+      margin-bottom: 16px;
+      font-size: 0.92rem;
+    }
+    .btn-row { display: flex; gap: 10px; flex-wrap: wrap; }
+    .map-btn {
+      flex: 1;
+      text-align: center;
+      background: #03c75a;
+      color: #fff;
+      text-decoration: none;
+      padding: 12px;
+      border-radius: 10px;
+      font-size: 0.9rem;
+      font-weight: 700;
+    }
+    .map-btn.sub { background: #2563eb; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div class="sub">📍 동탄반석로 71 출발 · 👧 은우(7세) & 👦 우준(3세) 맞춤 대시보드</div>
+      <h1>은우·우준이네 주말 나들이 & 행사 추천 6선</h1>
+      <div class="weather-strip">
+        <span class="weather-pill">☀️ 토요일 맑음 · 야외 최적</span>
+        <span class="weather-pill">🌧️ 일요일 비 예보 · 실내 권장</span>
+      </div>
+    </header>
+
+    <div class="filter-bar">
+      <button class="filter-btn active" onclick="filterSpots('all', this)">전체 (6)</button>
+      <button class="filter-btn" onclick="filterSpots('outing', this)">🌳 나들이 (3)</button>
+      <button class="filter-btn" onclick="filterSpots('festival', this)">🎉 축제·전시 (3)</button>
+      <button class="filter-btn" onclick="filterSpots('sat', this)">☀️ 토요일 추천</button>
+      <button class="filter-btn" onclick="filterSpots('sun', this)">🌧️ 일요일(우천) 추천</button>
+    </div>
+
+    <div class="card-grid" id="grid"></div>
+  </div>
+
+  <div class="modal-backdrop" id="modalBackdrop" onclick="closeModal()">
+    <div class="modal" onclick="event.stopPropagation()">
+      <div class="modal-header">
+        <div>
+          <div class="badges" id="mBadges"></div>
+          <h2 id="mTitle" style="font-size:1.35rem;"></h2>
+          <div id="mDrive" class="spot-drive" style="margin-top:4px;"></div>
+        </div>
+        <button class="close-btn" onclick="closeModal()">✕</button>
+      </div>
+      <div class="detail-box">
+        <strong>👧 은우(7세) 맞춤 포인트</strong>
+        <p id="mGirl"></p>
+      </div>
+      <div class="detail-box">
+        <strong>👦 우준(3세) 맞춤 포인트</strong>
+        <p id="mBoy"></p>
+      </div>
+      <div class="detail-box">
+        <strong>🚼 유모차 & 편의시설 팁</strong>
+        <p id="mTip"></p>
+      </div>
+      <div class="noodle-detail">
+        <strong id="mNoodleName" style="color:#92400e; display:block; margin-bottom:4px;"></strong>
+        <p id="mNoodleDesc"></p>
+      </div>
+      <div class="btn-row">
+        <a id="mPlaceLink" class="map-btn" target="_blank" rel="noopener">🗺️ 장소 네이버 지도 보기</a>
+        <a id="mFoodLink" class="map-btn sub" target="_blank" rel="noopener">🍜 국수집 지도 보기</a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const spots = [
+      {
+        type: 'outing', day: 'sat',
+        badgeType: '🌳 나들이 1', badgeDay: '☀️ 토요일 추천',
+        title: '오산맑음터공원 & 에코리움',
+        drive: '🚗 자차 약 12~14분 (오산시 탑동)',
+        summary: '무료 생태학습관(에코리움) + 대형 놀이터 + 평지 산책로 복합 공원',
+        girl: '에코리움 민물고기·곤충 관찰 및 전망대 체험, 야외 그물다리·미끄럼틀 놀이터',
+        boy: '차도 없는 안전한 평지 잔디밭 걷기, 탄성 바닥 유아용 낮은 미끄럼틀, 무장애 데크 산책',
+        tip: '에코리움 내 엘리베이터·수유실·기저귀 교환대 구비 (죽미령공원과 가장 비슷한 구성)',
+        noodleTag: '🍜 백청우칼국수 오산점',
+        noodleName: '🍜 연계 국수집: 백청우칼국수 오산점 (차로 5~7분)',
+        noodleDesc: '지난주 두 아이 모두 맛있게 먹은 검증된 맑은 해물칼국수 & 손만두 (주차장·아기의자 구비)',
+        placeQuery: '오산맑음터공원', foodQuery: '백청우칼국수 오산점'
+      },
+      {
+        type: 'outing', day: 'sat',
+        badgeType: '🌳 나들이 2', badgeDay: '☀️ 토요일 추천',
+        title: '용인 만골근린공원 숲놀이터',
+        drive: '🚗 자차 약 15~18분 (용인 기흥구 상갈동)',
+        summary: '성곽 모양 대형 조합 놀이대와 유아 전용 매트 놀이터가 공존하는 공원',
+        girl: '성곽 조합 놀이대 오르기, 원통형 미끄럼틀, 짚라인 등 모험 신체 놀이',
+        boy: '전체가 푹신한 탄성 매트 바닥으로 안전하며, 하단부 유아 전용 미끄럼틀 및 모래놀이',
+        tip: '경사로가 완만해 유모차 진입이 편하고, 바로 옆 기흥도서관 가족화장실·수유실 이용 가능',
+        noodleTag: '🍜 신갈 총각손칼국수',
+        noodleName: '🍜 연계 국수집: 신갈 총각손칼국수 (차로 5분)',
+        noodleDesc: '진하고 구수한 멸치육수 손칼국수 (주문 시 양념장 별도 요청 시 아이들 먹기 아주 순함)',
+        placeQuery: '기흥 만골근린공원', foodQuery: '신갈 총각손칼국수'
+      },
+      {
+        type: 'outing', day: 'sun',
+        badgeType: '🌳 나들이 3', badgeDay: '🌧️ 일요일 우천·실내',
+        title: '수원 국립농업박물관 & 식물원',
+        drive: '🚗 자차 약 22~25분 (수원 권선구)',
+        summary: '비 오는 일요일 유모차로 전 구역 이동 가능한 쾌적한 국립 실내 박물관',
+        girl: '인터랙티브 어린이박물관, 트랙터 시뮬레이터 탑승, 농업·곤충 전시 체험',
+        boy: '따뜻한 실내 식물원 폭포·비단잉어 구경, 넓고 평탄한 실내 복도 유모차 산책',
+        tip: '유모차 무료 대여, 층별 최신 수유실 및 가족 화장실, 넓은 주차장 완비',
+        noodleTag: '🍜 기장옥 샤브칼국수',
+        noodleName: '🍜 연계 국수집: 기장옥 샤브칼국수 수원본점 (차로 6분)',
+        noodleDesc: '맵지 않은 맑은 육수 소고기 샤브샤브 + 칼국수 + 계란야채죽 코스 (아기의자 구비)',
+        placeQuery: '수원 국립농업박물관', foodQuery: '기장옥 샤브칼국수 수원본점'
+      },
+      {
+        type: 'festival', day: 'sat',
+        badgeType: '🎉 축제 1 (10/17~25)', badgeDay: '☀️ 토요일 추천',
+        title: '2026 세계유산 조선왕릉축전 (융건릉)',
+        drive: '🚗 자차 약 15~20분 (화성시 안녕동)',
+        summary: '평탄한 소나무 숲길 산책과 기간 한정 어린이 사관 미션·공연 축제',
+        girl: '어린이 미션 프로그램 "조선명탐정: 왕릉사관록", 야외 왕릉 책마당 및 전통 공연',
+        boy: '턱이 없는 평탄한 소나무 숲길 유모차 산책, 솔방울과 도토리 줍기 놀이',
+        tip: '정문 매표소 및 역사문화관 인근 수유실·가족 화장실 구비',
+        noodleTag: '🍜 융건릉맨날국수',
+        noodleName: '🍜 연계 국수집: 융건릉맨날국수 화성점 (정문 차로 1분)',
+        noodleDesc: '시원하고 맑은 동죽조개칼국수 & 배말톳김밥 (1층 유모차 진입 수월·아기의자 구비)',
+        placeQuery: '화성 융건릉', foodQuery: '융건릉맨날국수 화성점'
+      },
+      {
+        type: 'festival', day: 'sun',
+        badgeType: '🎉 축제 2 (10~11월)', badgeDay: '🌧️ 실내외 겸용',
+        title: '국립과천과학관 《레트로 & 퓨처》',
+        drive: '🚗 자차 약 35~45분 (과천시 상하벌로)',
+        summary: '로봇·AI 미션 체험과 유아체험관·공룡공원을 한 번에 즐기는 가을 과학축제',
+        girl: '아기 로봇 G1 미션, AI 모션 스포츠, 자연사관 공룡·곤충 특별 해설 참여',
+        boy: '1층 만 5세 이하 전용 유아체험관 놀이터, 야외 실물 기차 및 공룡공원 산책',
+        tip: '대형 실내 시설로 일요일 비 예보 시에도 날씨 영향 없이 종일 나들이 가능',
+        noodleTag: '🍜 과천 한성칼국수',
+        noodleName: '🍜 연계 국수집: 과천 한성칼국수 (차로 5~7분)',
+        noodleDesc: '자극 없는 진한 사골 손칼국수·사골만둣국·접시만두 (1층 넓은 전용 주차장)',
+        placeQuery: '국립과천과학관', foodQuery: '과천 한성칼국수'
+      },
+      {
+        type: 'festival', day: 'sun',
+        badgeType: '🎉 기획전 3 (~10/25)', badgeDay: '🌧️ 일요일 우천·실내',
+        title: '경기도어린이박물관 《열려라~ 독립상자!》',
+        drive: '🚗 자차 약 15~18분 (용인 기흥구 상갈동)',
+        summary: '기간 한정 체험형 순회전시 & 주말 작가 워크숍이 열리는 실내 대표 명소',
+        girl: '1층 독립상자 열기 미션·역사 보드게임·스탬프 체험, 5~7세 주말 워크숍 "펭귄 도미노"',
+        boy: '1층 만 3세 이하 영유아 전용 공간 "자연놀이터"(푹신한 매트·채소 뽑기 촉각 놀이)',
+        tip: '100% 사전 예약제로 쾌적함 유지, 층별 유모차 보관소 및 수유실 완비',
+        noodleTag: '🍜 신갈 총각손칼국수',
+        noodleName: '🍜 연계 국수집: 신갈 총각손칼국수 (차로 5분)',
+        noodleDesc: '구수하고 구수한 멸치육수 손칼국수 (박물관 관람 전후 이동 동선 최적)',
+        placeQuery: '경기도어린이박물관', foodQuery: '신갈 총각손칼국수'
+      }
+    ];
+
+    function renderGrid(filter = 'all') {
+      const grid = document.getElementById('grid');
+      grid.innerHTML = '';
+      spots.forEach((s, idx) => {
+        if (filter !== 'all' && s.type !== filter && s.day !== filter) return;
+        const card = document.createElement('div');
+        card.className = 'spot-card';
+        card.onclick = () => openModal(idx);
+        card.innerHTML = `
+          <div>
+            <div class="badges">
+              <span class="badge ${s.type === 'outing' ? 'outing' : 'festival'}">${s.badgeType}</span>
+              <span class="badge ${s.day === 'sat' ? 'sat' : 'sun'}">${s.badgeDay}</span>
+            </div>
+            <div class="spot-title">${s.title}</div>
+            <div class="spot-drive">${s.drive}</div>
+            <div class="spot-summary">${s.summary}</div>
+          </div>
+          <div class="spot-footer">
+            <span class="noodle-tag">${s.noodleTag}</span>
+            <span>상세 보기 →</span>
+          </div>
+        `;
+        grid.appendChild(card);
+      });
+    }
+
+    function filterSpots(filter, btn) {
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      renderGrid(filter);
+    }
+
+    function openModal(idx) {
+      const s = spots[idx];
+      document.getElementById('mBadges').innerHTML = `
+        <span class="badge ${s.type === 'outing' ? 'outing' : 'festival'}">${s.badgeType}</span>
+        <span class="badge ${s.day === 'sat' ? 'sat' : 'sun'}">${s.badgeDay}</span>
+      `;
+      document.getElementById('mTitle').textContent = s.title;
+      document.getElementById('mDrive').textContent = s.drive;
+      document.getElementById('mGirl').textContent = s.girl;
+      document.getElementById('mBoy').textContent = s.boy;
+      document.getElementById('mTip').textContent = s.tip;
+      document.getElementById('mNoodleName').textContent = s.noodleName;
+      document.getElementById('mNoodleDesc').textContent = s.noodleDesc;
+      document.getElementById('mPlaceLink').href = 'https://map.naver.com/p/search/' + encodeURIComponent(s.placeQuery);
+      document.getElementById('mFoodLink').href = 'https://map.naver.com/p/search/' + encodeURIComponent(s.foodQuery);
+      document.getElementById('modalBackdrop').classList.add('open');
+    }
+
+    function closeModal() {
+      document.getElementById('modalBackdrop').classList.remove('open');
+    }
+
+    renderGrid();
+  </script>
+</body>
+</html>
