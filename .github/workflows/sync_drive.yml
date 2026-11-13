@@ -4,7 +4,7 @@ on:
   schedule:
     # 매주 금요일 오전 07:00 KST (UTC 목요일 22:00) 자동 동기화 감지
     - cron: '0 22 * * 4'
-  workflow_dispatch:        # 필요시 GitHub 웹에서 수동 즉시 실행 가능
+  workflow_dispatch:        # 필요시 수동 즉시 실행 가능
 
 jobs:
   sync-and-deploy:
@@ -41,10 +41,10 @@ jobs:
         run: |
           git config --local user.name "github-actions[bot]"
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
-          git add reports/ hub-data.json
+          git add docs/ hub-data.json
           if git diff --staged --quiet; then
             echo "No changes detected. Skipping commit."
           else
-            git commit -m "chore(dashboard): auto-sync weekly report from Drive and update index [skip ci]"
+            git commit -m "chore(dashboard): auto-sync weekly report to docs/ and update index [skip ci]"
             git push origin main
           fi
