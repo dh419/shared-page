@@ -241,6 +241,10 @@
         <strong>🚼 유모차 &amp; 편의시설 팁</strong>
         <p id="mTip"></p>
       </div>
+      <div class="detail-box" style="background:#f0fdf4; border:1px solid #bbf7d0;">
+        <strong style="color:#166534;">🅿️ 주차장 정보 &amp; 주차 팁</strong>
+        <p id="mParking" style="color:#14532d;"></p>
+      </div>
       <div class="noodle-detail">
         <strong id="mNoodleName" style="color:#92400e; display:block; margin-bottom:4px;"></strong>
         <p id="mNoodleDesc"></p>
@@ -328,6 +332,7 @@
       document.getElementById('mGirl').textContent = s.girl;
       document.getElementById('mBoy').textContent = s.boy;
       document.getElementById('mTip').textContent = s.tip;
+      document.getElementById('mParking').textContent = s.parking || '전용 주차장 완비 (주차 편의 우수)';
       document.getElementById('mNoodleName').textContent = s.noodleName;
       document.getElementById('mNoodleDesc').textContent = s.noodleDesc;
       document.getElementById('mPlaceLink').href = 'https://map.naver.com/p/search/' + encodeURIComponent(s.placeQuery);
