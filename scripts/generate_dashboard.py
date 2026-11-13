@@ -12,7 +12,7 @@ TEMPLATES_DIR = os.path.join(REPO_ROOT, 'templates')
 MASTER_HTML_PATH = os.path.join(TEMPLATES_DIR, 'master_dashboard.html')
 
 GEMINI_API_KEY = os.environ.get('GEMINI_API_KEY')
-GEMINI_MODEL = os.environ.get('GEMINI_MODEL', 'gemini-2.5-flash')
+GEMINI_MODEL = os.environ.get('GEMINI_MODEL', 'gemini-3.8-flash')
 THINKING_BUDGET = int(os.environ.get('THINKING_BUDGET', '0'))
 
 def get_target_weekend_dates():
@@ -83,9 +83,14 @@ def generate_dashboard():
 }}
 """
 
-    # Candidate models to try in case of quota / availability
-    candidate_models = [GEMINI_MODEL, 'gemini-2.5-flash', 'gemini-1.5-flash', 'gemini-2.0-flash']
-    # Deduplicate preserving order
+    # Verified available models from API catalog
+    candidate_models = [
+        GEMINI_MODEL,
+        'gemini-3.5-flash',
+        'gemini-3.6-flash',
+        'gemini-3.7-flash',
+        'gemini-4-argon'
+    ]
     seen = set()
     models_to_try = [m for m in candidate_models if not (m in seen or seen.add(m))]
 
@@ -112,7 +117,7 @@ def generate_dashboard():
         except Exception as e:
             print(f"Model '{model_name}' attempt failed: {e}")
             last_err = e
-            time.sleep(2)
+            time.sleep(3)
 
     if not response:
         raise RuntimeError(f"All model attempts failed. Last error: {last_err}")
