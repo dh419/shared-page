@@ -1,6 +1,7 @@
 import os
 import re
 import json
+import time
 from datetime import datetime, timedelta
 from google import genai
 from google.genai import types
@@ -11,8 +12,8 @@ TEMPLATES_DIR = os.path.join(REPO_ROOT, 'templates')
 MASTER_HTML_PATH = os.path.join(TEMPLATES_DIR, 'master_dashboard.html')
 
 GEMINI_API_KEY = os.environ.get('GEMINI_API_KEY')
-GEMINI_MODEL = os.environ.get('GEMINI_MODEL', 'gemini-3.8-flash')
-THINKING_BUDGET = int(os.environ.get('THINKING_BUDGET', '1024'))
+GEMINI_MODEL = os.environ.get('GEMINI_MODEL', 'gemini-2.5-flash')
+THINKING_BUDGET = int(os.environ.get('THINKING_BUDGET', '0'))
 
 def get_target_weekend_dates():
     now = datetime.now()
@@ -82,21 +83,39 @@ def generate_dashboard():
 }}
 """
 
-    print(f"Calling Gemini API ({GEMINI_MODEL}, thinking_budget={THINKING_BUDGET}) with Google Search for weekend {weekend_label}...")
-    
-    # Configure thinking config if supported
-    config_args = {
-        'tools': [types.Tool(google_search=types.GoogleSearch())],
-        'temperature': 0.3,
-    }
-    if THINKING_BUDGET > 0:
-        config_args['thinking_config'] = types.ThinkingConfig(thinking_budget=THINKING_BUDGET)
+    # Candidate models to try in case of quota / availability
+    candidate_models = [GEMINI_MODEL, 'gemini-2.5-flash', 'gemini-1.5-flash', 'gemini-2.0-flash']
+    # Deduplicate preserving order
+    seen = set()
+    models_to_try = [m for m in candidate_models if not (m in seen or seen.add(m))]
 
-    response = client.models.generate_content(
-        model=GEMINI_MODEL,
-        contents=prompt,
-        config=types.GenerateContentConfig(**config_args),
-    )
+    response = None
+    last_err = None
+
+    for model_name in models_to_try:
+        try:
+            print(f"Trying Gemini model '{model_name}' (thinking_budget={THINKING_BUDGET})...")
+            config_args = {
+                'tools': [types.Tool(google_search=types.GoogleSearch())],
+                'temperature': 0.3,
+            }
+            if THINKING_BUDGET > 0:
+                config_args['thinking_config'] = types.ThinkingConfig(thinking_budget=THINKING_BUDGET)
+
+            response = client.models.generate_content(
+                model=model_name,
+                contents=prompt,
+                config=types.GenerateContentConfig(**config_args),
+            )
+            print(f"Success with model: {model_name}")
+            break
+        except Exception as e:
+            print(f"Model '{model_name}' attempt failed: {e}")
+            last_err = e
+            time.sleep(2)
+
+    if not response:
+        raise RuntimeError(f"All model attempts failed. Last error: {last_err}")
 
     raw_text = response.text.strip()
     raw_text = re.sub(r'^```(?:json)?\s*', '', raw_text)
