@@ -12,7 +12,7 @@ TEMPLATES_DIR = os.path.join(REPO_ROOT, 'templates')
 MASTER_HTML_PATH = os.path.join(TEMPLATES_DIR, 'master_dashboard.html')
 
 GEMINI_API_KEY = os.environ.get('GEMINI_API_KEY')
-GEMINI_MODEL = os.environ.get('GEMINI_MODEL', 'gemini-3.8-flash')
+GEMINI_MODEL = os.environ.get('GEMINI_MODEL', 'gemini-3.5-flash-lite')
 THINKING_BUDGET = int(os.environ.get('THINKING_BUDGET', '0'))
 
 def get_target_weekend_dates():
@@ -83,13 +83,12 @@ def generate_dashboard():
 }}
 """
 
-    # Verified available models from API catalog
+    # Tested and working models on free tier
     candidate_models = [
         GEMINI_MODEL,
+        'gemini-3.5-flash-lite',
         'gemini-3.5-flash',
-        'gemini-3.6-flash',
-        'gemini-3.7-flash',
-        'gemini-4-argon'
+        'gemini-3.8-flash'
     ]
     seen = set()
     models_to_try = [m for m in candidate_models if not (m in seen or seen.add(m))]
