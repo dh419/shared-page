@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>2026-W45 주간 대시보드 (Sample)</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-slate-950 text-slate-100 min-h-screen p-6 md:p-10 font-sans">
+  <div class="max-w-5xl mx-auto space-y-6">
+    <!-- Header -->
+    <header class="border-b border-slate-800 pb-5 flex flex-wrap items-center justify-between gap-4">
+      <div>
+        <div class="inline-flex items-center gap-2 px-2.5 py-1 rounded-full text-xs font-semibold bg-indigo-500/10 text-indigo-400 border border-indigo-500/20 mb-2">
+          Weekly Dashboard
+        </div>
+        <h1 class="text-2xl md:text-3xl font-bold tracking-tight text-white">2026년 45주차 주간 요약 브리핑</h1>
+        <p class="text-sm text-slate-400 mt-1">기간: 2026.11.02 ~ 2026.11.08 | 생성: Gemini AI Engine</p>
+      </div>
+      <div class="flex items-center gap-2">
+        <span class="inline-flex items-center px-3 py-1 rounded-md text-xs font-medium bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+          ● Status: Normal
+        </span>
+      </div>
+    </header>
+
+    <!-- Key Metrics Grid -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+      <div class="p-4 rounded-xl bg-slate-900 border border-slate-800">
+        <div class="text-xs font-medium text-slate-400">완료 과제</div>
+        <div class="text-2xl font-bold text-white mt-1">14 건</div>
+        <div class="text-xs text-emerald-400 mt-1">↑ 전주 대비 +2건</div>
+      </div>
+      <div class="p-4 rounded-xl bg-slate-900 border border-slate-800">
+        <div class="text-xs font-medium text-slate-400">진행 중 프로젝트</div>
+        <div class="text-2xl font-bold text-white mt-1">6 건</div>
+        <div class="text-xs text-indigo-400 mt-1">안정적 진행</div>
+      </div>
+      <div class="p-4 rounded-xl bg-slate-900 border border-slate-800">
+        <div class="text-xs font-medium text-slate-400">목표 달성률</div>
+        <div class="text-2xl font-bold text-emerald-400 mt-1">94.2%</div>
+        <div class="text-xs text-slate-400 mt-1">목표치 초과 달성</div>
+      </div>
+      <div class="p-4 rounded-xl bg-slate-900 border border-slate-800">
+        <div class="text-xs font-medium text-slate-400">주의/이슈 항목</div>
+        <div class="text-2xl font-bold text-amber-400 mt-1">1 건</div>
+        <div class="text-xs text-amber-400/80 mt-1">조치 계획 수립 완료</div>
+      </div>
+    </div>
+
+    <!-- Main Content Sections -->
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      <div class="lg:col-span-2 space-y-6">
+        <section class="p-5 rounded-xl bg-slate-900 border border-slate-800 space-y-3">
+          <h2 class="text-base font-semibold text-white flex items-center gap-2">
+            <span class="w-2 h-2 rounded-full bg-indigo-500"></span> 핵심 하이라이트
+          </h2>
+          <ul class="space-y-2 text-sm text-slate-300">
+            <li class="flex items-start gap-2">
+              <span class="text-indigo-400 font-bold">•</span>
+              <span><strong>자동화 파이프라인 구축:</strong> 모바일 제미나이 주간 보고서의 GitHub Pages 완전 무인 게시 체계 마련</span>
+            </li>
+            <li class="flex items-start gap-2">
+              <span class="text-indigo-400 font-bold">•</span>
+              <span><strong>단축 URL 표준화:</strong> itty.bitty.site의 긴 문자열 단절 문제를 짧고 고유한 영구 웹 주소로 완전 해결</span>
+            </li>
+            <li class="flex items-start gap-2">
+              <span class="text-indigo-400 font-bold">•</span>
+              <span><strong>통합 허브 구축:</strong> 역대 주차별 보고서를 사이드바에서 원클릭으로 열람 가능한 아카이브 시스템 연동</span>
+            </li>
+          </ul>
+        </section>
+
+        <section class="p-5 rounded-xl bg-slate-900 border border-slate-800 space-y-3">
+          <h2 class="text-base font-semibold text-white flex items-center gap-2">
+            <span class="w-2 h-2 rounded-full bg-emerald-500"></span> 세부 업무 추진 현황
+          </h2>
+          <div class="space-y-3 text-sm">
+            <div class="p-3 rounded-lg bg-slate-950/60 border border-slate-800/80">
+              <div class="flex justify-between font-medium text-slate-200">
+                <span>클라우드 동기화 스토리지 연계</span>
+                <span class="text-emerald-400">완료 (100%)</span>
+              </div>
+              <p class="text-xs text-slate-400 mt-1">Google Drive 수신 버킷 기반 자동 수집 트리거 테스트 완료</p>
+            </div>
+            <div class="p-3 rounded-lg bg-slate-950/60 border border-slate-800/80">
+              <div class="flex justify-between font-medium text-slate-200">
+                <span>Hub UI 레이아웃 및 반응형 뷰어 개발</span>
+                <span class="text-emerald-400">완료 (100%)</span>
+              </div>
+              <p class="text-xs text-slate-400 mt-1">다크 모드, 사이드바 토글, URL 해시 딥링크 완벽 지원</p>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <!-- Side Column -->
+      <div class="space-y-6">
+        <section class="p-5 rounded-xl bg-slate-900 border border-slate-800 space-y-3">
+          <h2 class="text-base font-semibold text-white">차주 중점 실행 과제</h2>
+          <div class="space-y-2 text-xs text-slate-300">
+            <div class="flex items-center gap-2 p-2 rounded bg-slate-950/40 border border-slate-800/60">
+              <span class="w-1.5 h-1.5 rounded-full bg-indigo-400"></span>
+              <span>Gemini 정기 예약작업 자동 발송 모니터링</span>
+            </div>
+            <div class="flex items-center gap-2 p-2 rounded bg-slate-950/40 border border-slate-800/60">
+              <span class="w-1.5 h-1.5 rounded-full bg-indigo-400"></span>
+              <span>지정 수신자 자동 공유 링크 배포 루틴 점검</span>
+            </div>
+            <div class="flex items-center gap-2 p-2 rounded bg-slate-950/40 border border-slate-800/60">
+              <span class="w-1.5 h-1.5 rounded-full bg-indigo-400"></span>
+              <span>월간 통합 요약 뷰 추가 여부 검토</span>
+            </div>
+          </div>
+        </section>
+
+        <section class="p-5 rounded-xl bg-slate-900 border border-slate-800 text-xs text-slate-400 space-y-2">
+          <div class="font-medium text-slate-300">대시보드 메타 정보</div>
+          <div>엔진 버전: <span class="text-slate-200">Gemini Pro 1.5 / Flash</span></div>
+          <div>포맷 표준: <span class="text-slate-200">HTML5 Standalone</span></div>
+          <div>게시 방식: <span class="text-emerald-400">GitHub Pages Automated</span></div>
+        </section>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

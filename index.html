@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="ko" class="h-full bg-slate-950 text-slate-100">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>주간 대시보드 아카이브 허브</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              50: '#eef2ff',
+              100: '#e0e7ff',
+              500: '#6366f1',
+              600: '#4f46e5',
+              700: '#4338ca',
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    /* Custom thin scrollbar */
+    ::-webkit-scrollbar { width: 5px; height: 5px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: #334155; border-radius: 9999px; }
+    ::-webkit-scrollbar-thumb:hover { background: #475569; }
+  </style>
+</head>
+<body class="h-full flex overflow-hidden font-sans antialiased">
+
+  <!-- Mobile Backdrop -->
+  <div id="backdrop" class="fixed inset-0 bg-black/60 z-30 hidden md:hidden transition-opacity" onclick="toggleSidebar()"></div>
+
+  <!-- Sidebar Container -->
+  <aside id="sidebar" class="fixed md:static inset-y-0 left-0 z-40 w-72 bg-slate-900/95 md:bg-slate-900 border-r border-slate-800 flex flex-col transition-transform duration-200 -translate-x-full md:translate-x-0 backdrop-blur-md">
+    
+    <!-- Sidebar Header -->
+    <div class="h-16 px-4 flex items-center justify-between border-b border-slate-800">
+      <div class="flex items-center gap-2.5">
+        <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center font-bold text-white shadow-sm">
+          📊
+        </div>
+        <div>
+          <h1 class="text-sm font-semibold text-white tracking-tight leading-none">대시보드 허브</h1>
+          <p class="text-[11px] text-slate-400 mt-1">Weekly Reports Hub</p>
+        </div>
+      </div>
+      <button class="md:hidden text-slate-400 hover:text-white p-1" onclick="toggleSidebar()">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+      </button>
+    </div>
+
+    <!-- Quick Search / Filter -->
+    <div class="p-3 border-b border-slate-800">
+      <div class="relative">
+        <input type="text" id="searchInput" placeholder="주차 또는 키워드 검색..." oninput="filterReports()" 
+          class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-1.5 text-xs text-slate-200 placeholder-slate-500 focus:outline-none focus:border-indigo-500 transition-colors">
+        <span class="absolute right-2.5 top-2 text-[10px] text-slate-600">Ctrl+K</span>
+      </div>
+    </div>
+
+    <!-- Report Items Navigation -->
+    <div class="flex-1 overflow-y-auto p-3 space-y-1" id="reportList">
+      <div class="text-center py-8 text-xs text-slate-500">리포트 목록을 불러오는 중...</div>
+    </div>
+
+    <!-- Sidebar Footer -->
+    <div class="p-3 border-t border-slate-800 bg-slate-950/40 text-[11px] text-slate-400 flex items-center justify-between">
+      <span id="reportCount">총 0개 리포트</span>
+      <span class="inline-flex items-center gap-1 text-emerald-400">
+        <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span> 동기화 활성
+      </span>
+    </div>
+  </aside>
+
+  <!-- Main View Area -->
+  <main class="flex-1 flex flex-col h-full overflow-hidden bg-slate-950 min-w-0">
+    
+    <!-- Top Bar -->
+    <header class="h-14 border-b border-slate-800 px-4 flex items-center justify-between bg-slate-900/60 backdrop-blur-sm">
+      <div class="flex items-center gap-3 min-w-0">
+        <button class="md:hidden p-1.5 -ml-1 text-slate-400 hover:text-white rounded-md focus:bg-slate-800" onclick="toggleSidebar()">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
+        </button>
+        <div class="min-w-0">
+          <div class="flex items-center gap-2">
+            <span id="currentBadge" class="px-2 py-0.5 rounded text-[10px] font-semibold bg-indigo-500/10 text-indigo-400 border border-indigo-500/20">W00</span>
+            <h2 id="currentTitle" class="text-sm font-semibold text-white truncate">대시보드를 선택하세요</h2>
+          </div>
+        </div>
+      </div>
+
+      <!-- Action Toolbar -->
+      <div class="flex items-center gap-2">
+        <button id="copyBtn" onclick="copyCurrentUrl()" class="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 transition">
+          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
+          공유 URL 복사
+        </button>
+        <a id="externalLink" href="#" target="_blank" class="p-1.5 text-slate-400 hover:text-white rounded-lg hover:bg-slate-800 transition" title="새 창에서 원본 열기">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+        </a>
+      </div>
+    </header>
+
+    <!-- Viewer iframe -->
+    <div class="flex-1 relative bg-slate-950">
+      <iframe id="reportFrame" class="w-full h-full border-0" src="about:blank"></iframe>
+      
+      <!-- Toast Notification -->
+      <div id="toast" class="fixed bottom-5 right-5 z-50 transform translate-y-10 opacity-0 transition duration-200 bg-indigo-600 text-white text-xs px-4 py-2 rounded-lg shadow-lg flex items-center gap-2 pointer-events-none">
+        <span>✓</span> <span id="toastMsg">링크가 클립보드에 복사되었습니다!</span>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    let reports = [];
+    let currentReport = null;
+
+    async function init() {
+      try {
+        const res = await fetch('hub-data.json?v=' + Date.now());
+        reports = await res.json();
+        renderList(reports);
+        
+        // Handle URL Hash navigation (e.g. #2026-W45)
+        const hash = window.location.hash.replace('#', '').trim();
+        if (hash) {
+          const matched = reports.find(r => r.id === hash || r.week === hash);
+          if (matched) {
+            selectReport(matched.id);
+            return;
+          }
+        }
+
+        // Default to latest report
+        if (reports.length > 0) {
+          selectReport(reports[0].id);
+        }
+      } catch (err) {
+        console.error('Failed to load hub data:', err);
+        document.getElementById('reportList').innerHTML = '<div class="p-4 text-xs text-rose-400 text-center">리포트 목록 로드 실패</div>';
+      }
+    }
+
+    function renderList(list) {
+      const container = document.getElementById('reportList');
+      document.getElementById('reportCount').innerText = `총 ${list.length}개 리포트`;
+
+      if (list.length === 0) {
+        container.innerHTML = '<div class="text-center py-8 text-xs text-slate-500">검색 결과가 없습니다.</div>';
+        return;
+      }
+
+      container.innerHTML = list.map(item => `
+        <button onclick="selectReport('${item.id}')" id="item-${item.id}"
+          class="report-btn w-full text-left p-2.5 rounded-lg transition-all duration-150 group border border-transparent hover:bg-slate-800/80">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-semibold text-slate-200 group-hover:text-white">${item.week || item.id}</span>
+            <span class="text-[10px] text-slate-500">${item.date || ''}</span>
+          </div>
+          <div class="text-xs text-slate-400 group-hover:text-slate-300 truncate mt-0.5">${item.title}</div>
+        </button>
+      `).join('');
+
+      if (currentReport) {
+        highlightItem(currentReport.id);
+      }
+    }
+
+    function selectReport(id) {
+      const target = reports.find(r => r.id === id);
+      if (!target) return;
+      currentReport = target;
+
+      // Update Topbar
+      document.getElementById('currentBadge').innerText = target.week || target.id;
+      document.getElementById('currentTitle').innerText = target.title;
+      document.getElementById('externalLink').href = target.path;
+
+      // Load into iframe
+      document.getElementById('reportFrame').src = target.path;
+
+      // Update URL hash without scroll
+      history.replaceState(null, null, '#' + target.id);
+
+      // Highlight active button
+      highlightItem(id);
+
+      // Close mobile sidebar if open
+      if (window.innerWidth < 768) {
+        toggleSidebar(false);
+      }
+    }
+
+    function highlightItem(id) {
+      document.querySelectorAll('.report-btn').forEach(btn => {
+        btn.classList.remove('bg-indigo-600/15', 'border-indigo-500/30', 'text-indigo-400');
+      });
+      const activeBtn = document.getElementById('item-' + id);
+      if (activeBtn) {
+        activeBtn.classList.add('bg-indigo-600/15', 'border-indigo-500/30');
+      }
+    }
+
+    function filterReports() {
+      const q = document.getElementById('searchInput').value.toLowerCase().trim();
+      const filtered = reports.filter(r => 
+        (r.title && r.title.toLowerCase().includes(q)) || 
+        (r.id && r.id.toLowerCase().includes(q)) ||
+        (r.summary && r.summary.toLowerCase().includes(q))
+      );
+      renderList(filtered);
+    }
+
+    function toggleSidebar(forceState) {
+      const sb = document.getElementById('sidebar');
+      const bd = document.getElementById('backdrop');
+      const isOpen = !sb.classList.contains('-translate-x-full');
+      const next = forceState !== undefined ? forceState : !isOpen;
+
+      if (next) {
+        sb.classList.remove('-translate-x-full');
+        bd.classList.remove('hidden');
+      } else {
+        sb.classList.add('-translate-x-full');
+        bd.classList.add('hidden');
+      }
+    }
+
+    function copyCurrentUrl() {
+      const url = window.location.href;
+      navigator.clipboard.writeText(url).then(() => {
+        showToast('공유 URL이 클립보드에 복사되었습니다!');
+      }).catch(() => {
+        showToast('복사에 실패했습니다.');
+      });
+    }
+
+    function showToast(msg) {
+      const toast = document.getElementById('toast');
+      document.getElementById('toastMsg').innerText = msg;
+      toast.classList.remove('opacity-0', 'translate-y-10');
+      setTimeout(() => {
+        toast.classList.add('opacity-0', 'translate-y-10');
+      }, 2500);
+    }
+
+    // Shortcut Ctrl+K
+    window.addEventListener('keydown', (e) => {
+      if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k') {
+        e.preventDefault();
+        document.getElementById('searchInput').focus();
+      }
+    });
+
+    init();
+  </script>
+</body>
+</html>
