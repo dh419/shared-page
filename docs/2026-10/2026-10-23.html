@@ -1,439 +1,355 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>동탄 주말 나들이 가이드 (10.24~10.25)</title>
-<style>
-  :root {
-    --primary: #059669;
-    --primary-dark: #047857;
-    --primary-light: #d1fae5;
-    --primary-text: #065f46;
-    --bg: #f8fafc;
-    --surface: #ffffff;
-    --border: #e2e8f0;
-    --text: #0f172a;
-    --muted: #475569;
-    --amber-bg: #fffbeb;
-    --amber-border: #fde68a;
-    --amber-text: #92400e;
-    --shadow-sm: 0 1px 2px rgba(15,23,42,0.05);
-    --shadow-md: 0 4px 12px rgba(15,23,42,0.08);
-    --radius: 14px;
-  }
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  body {
-    font-family: 'Pretendard', 'Apple SD Gothic Neo', 'Malgun Gothic', -apple-system, BlinkMacSystemFont, sans-serif;
-    background: var(--bg);
-    color: var(--text);
-    font-size: 14px;
-    line-height: 1.55;
-    -webkit-font-smoothing: antialiased;
-  }
-  .container { max-width: 1080px; margin: 0 auto; padding: 0 16px; }
-  header {
-    background: linear-gradient(135deg, #059669 0%, #047857 100%);
-    color: #fff;
-    padding: 20px 0;
-    box-shadow: var(--shadow-md);
-  }
-  .header-inner {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 14px;
-    align-items: center;
-    justify-content: space-between;
-  }
-  .profile-pill {
-    display: inline-block;
-    background: rgba(255,255,255,0.16);
-    padding: 4px 10px;
-    border-radius: 999px;
-    font-size: 12px;
-    font-weight: 600;
-    margin-bottom: 6px;
-  }
-  h1 { font-size: 22px; font-weight: 800; letter-spacing: -0.02em; }
-  .header-actions { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
-  .weather-badge {
-    background: rgba(255,255,255,0.18);
-    padding: 7px 12px;
-    border-radius: 10px;
-    font-size: 13px;
-    font-weight: 600;
-  }
-  .btn {
-    border: 1px solid var(--border);
-    background: var(--surface);
-    color: var(--text);
-    padding: 8px 13px;
-    border-radius: 10px;
-    font-size: 13px;
-    font-weight: 700;
-    cursor: pointer;
-    text-decoration: none;
-    display: inline-flex;
-    align-items: center;
-    gap: 5px;
-    transition: all 0.15s ease;
-  }
-  .btn:hover { background: #f1f5f9; }
-  .btn-primary { background: var(--primary); color: #fff; border-color: var(--primary); }
-  .btn-primary:hover { background: var(--primary-dark); }
-  .btn-dark { background: #1e293b; color: #fff; border-color: #1e293b; }
-  .btn-dark:hover { background: #0f172a; }
-  .btn-light { background: #fff; color: var(--primary-dark); border-color: #fff; }
-  .btn-light:hover { background: #ecfdf5; }
-
-  main { padding: 18px 0 36px; }
-  .kpi-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-    gap: 12px;
-    margin-bottom: 14px;
-  }
-  .card {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    padding: 15px;
-    box-shadow: var(--shadow-sm);
-    transition: transform 0.15s ease, box-shadow 0.15s ease;
-  }
-  .kpi-card small { color: var(--muted); font-size: 12px; font-weight: 600; display: block; margin-bottom: 4px; }
-  .kpi-card strong { font-size: 15px; font-weight: 800; color: var(--text); }
-
-  .toolbar {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 12px;
-  }
-  .tabs { display: flex; flex-wrap: wrap; gap: 6px; }
-  .tab-btn {
-    border: 1px solid var(--border);
-    background: #f8fafc;
-    color: var(--muted);
-    padding: 7px 12px;
-    border-radius: 999px;
-    font-size: 12.5px;
-    font-weight: 700;
-    cursor: pointer;
-    transition: all 0.15s ease;
-  }
-  .tab-btn.active { background: var(--primary); color: #fff; border-color: var(--primary); }
-  .search-wrap { display: flex; gap: 8px; flex-wrap: wrap; }
-  input[type="search"], select {
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    padding: 7px 11px;
-    font-size: 13px;
-    background: #fff;
-    color: var(--text);
-  }
-  .notice-banner {
-    background: var(--amber-bg);
-    border: 1px solid var(--amber-border);
-    color: var(--amber-text);
-    border-radius: 12px;
-    padding: 10px 14px;
-    font-size: 13px;
-    font-weight: 600;
-    margin-bottom: 16px;
-  }
-  .spots-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(315px, 1fr));
-    gap: 14px;
-  }
-  .spot-card { display: flex; flex-direction: column; justify-content: space-between; gap: 10px; }
-  .spot-card:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); }
-  .spot-card.visited { border: 2px solid #10b981; background: #f0fdf4; }
-  .spot-top { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
-  .badge {
-    font-size: 11.5px;
-    font-weight: 700;
-    padding: 3px 9px;
-    border-radius: 999px;
-    background: var(--primary-light);
-    color: var(--primary-text);
-  }
-  .badge.fest { background: #fef3c7; color: #92400e; }
-  .fav-btn {
-    border: 1px solid var(--border);
-    background: #fff;
-    padding: 4px 9px;
-    border-radius: 8px;
-    font-size: 12px;
-    font-weight: 700;
-    cursor: pointer;
-  }
-  .fav-btn.on { background: #fef9c3; border-color: #fde047; color: #854d0e; }
-  .spot-title { font-size: 16px; font-weight: 800; color: var(--text); line-height: 1.35; }
-  .spot-meta { font-size: 12.5px; font-weight: 600; color: var(--primary-dark); }
-  .age-box {
-    background: #f8fafc;
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    padding: 9px 11px;
-    font-size: 12.5px;
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-  }
-  .food-box {
-    background: var(--amber-bg);
-    border: 1px solid var(--amber-border);
-    border-radius: 10px;
-    padding: 8px 11px;
-    font-size: 12.5px;
-  }
-  .food-box strong { color: var(--amber-text); }
-  .spot-actions { display: flex; justify-content: space-between; align-items: center; gap: 8px; margin-top: 2px; }
-  .empty-state {
-    grid-column: 1 / -1;
-    text-align: center;
-    padding: 40px 20px;
-    color: var(--muted);
-    background: var(--surface);
-    border: 1px dashed var(--border);
-    border-radius: var(--radius);
-  }
-
-  .modal-backdrop {
-    position: fixed;
-    inset: 0;
-    background: rgba(15,23,42,0.55);
-    display: none;
-    align-items: center;
-    justify-content: center;
-    padding: 16px;
-    z-index: 50;
-  }
-  .modal-backdrop.open { display: flex; }
-  .modal-panel {
-    background: var(--surface);
-    max-width: 520px;
-    width: 100%;
-    border-radius: 16px;
-    overflow: hidden;
-    box-shadow: 0 20px 40px rgba(15,23,42,0.22);
-    max-height: 90vh;
-    display: flex;
-    flex-direction: column;
-  }
-  .modal-header {
-    background: var(--primary);
-    color: #fff;
-    padding: 14px 18px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    font-weight: 800;
-    font-size: 15px;
-  }
-  .modal-close {
-    background: rgba(255,255,255,0.2);
-    border: none;
-    color: #fff;
-    width: 28px;
-    height: 28px;
-    border-radius: 8px;
-    font-weight: 800;
-    cursor: pointer;
-  }
-  .modal-body { padding: 16px 18px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; }
-  .check-item { display: flex; align-items: center; gap: 8px; padding: 3px 0; cursor: pointer; font-size: 13px; }
-  .modal-footer { display: flex; justify-content: flex-end; gap: 8px; margin-top: 4px; }
-</style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>은우·우준이 주말 나들이 &amp; 행사 대시보드 (10.24~10.25)</title>
+  <style>
+    :root {
+      --bg: #f8fafc;
+      --card: #ffffff;
+      --primary: #2563eb;
+      --primary-soft: #dbeafe;
+      --green: #059669;
+      --green-soft: #d1fae5;
+      --purple: #7c3aed;
+      --purple-soft: #ede9fe;
+      --amber: #d97706;
+      --amber-soft: #fef3c7;
+      --text: #0f172a;
+      --muted: #64748b;
+      --border: #e2e8f0;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body {
+      width: 100%;
+      min-height: 100%;
+      background: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Pretendard", "Malgun Gothic", sans-serif;
+    }
+    .container {
+      width: 100%;
+      max-width: 1120px;
+      margin: 0 auto;
+      min-height: 100vh;
+      padding: 20px;
+    }
+    header {
+      background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
+      color: #fff;
+      border-radius: 16px;
+      padding: 24px;
+      margin-bottom: 20px;
+      box-shadow: 0 8px 20px rgba(37, 99, 235, 0.18);
+    }
+    header .sub { font-size: 0.85rem; opacity: 0.9; margin-bottom: 6px; }
+    header h1 { font-size: 1.5rem; font-weight: 800; margin-bottom: 12px; }
+    .weather-strip { display: flex; flex-wrap: wrap; gap: 10px; font-size: 0.88rem; }
+    .weather-pill {
+      background: rgba(255,255,255,0.18);
+      padding: 6px 14px;
+      border-radius: 999px;
+    }
+    .filter-bar {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      padding-bottom: 10px;
+      margin-bottom: 20px;
+      align-items: center;
+    }
+    .filter-btn {
+      border: 1px solid var(--border);
+      background: var(--card);
+      color: var(--text);
+      padding: 9px 16px;
+      border-radius: 999px;
+      font-size: 0.9rem;
+      font-weight: 700;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: 0.15s;
+    }
+    .filter-btn.active, .filter-btn:hover {
+      background: var(--primary);
+      color: #fff;
+      border-color: var(--primary);
+    }
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 18px;
+    }
+    .spot-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 20px;
+      cursor: pointer;
+      transition: transform 0.16s ease, box-shadow 0.16s ease, border-color 0.16s ease;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .spot-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 24px rgba(15, 23, 42, 0.09);
+      border-color: #93c5fd;
+    }
+    .badges { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 10px; }
+    .badge { font-size: 0.75rem; font-weight: 700; padding: 4px 10px; border-radius: 6px; }
+    .badge.outing { background: var(--green-soft); color: var(--green); }
+    .badge.festival { background: var(--purple-soft); color: var(--purple); }
+    .badge.sat { background: var(--amber-soft); color: var(--amber); }
+    .badge.sun { background: var(--primary-soft); color: var(--primary); }
+    .spot-title { font-size: 1.15rem; font-weight: 800; margin-bottom: 6px; }
+    .spot-drive { font-size: 0.85rem; color: var(--muted); margin-bottom: 12px; font-weight: 600; }
+    .spot-summary { font-size: 0.9rem; color: #334155; margin-bottom: 16px; line-height: 1.5; }
+    .spot-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-top: 1px dashed var(--border);
+      padding-top: 12px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: var(--primary);
+    }
+    .noodle-tag {
+      background: #fffbeb;
+      color: #b45309;
+      border: 1px solid #fde68a;
+      padding: 4px 10px;
+      border-radius: 6px;
+      font-size: 0.8rem;
+    }
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.6);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      z-index: 1000;
+    }
+    .modal-backdrop.open { display: flex; }
+    .modal {
+      background: #fff;
+      border-radius: 20px;
+      max-width: 560px;
+      width: 100%;
+      padding: 24px;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.25);
+      max-height: 90vh;
+      overflow-y: auto;
+    }
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 16px;
+    }
+    .close-btn {
+      background: #f1f5f9;
+      border: none;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      font-size: 1.2rem;
+      cursor: pointer;
+      font-weight: bold;
+      flex-shrink: 0;
+    }
+    .detail-box {
+      background: #f8fafc;
+      border-radius: 12px;
+      padding: 14px;
+      margin-bottom: 12px;
+      font-size: 0.92rem;
+      line-height: 1.5;
+    }
+    .detail-box strong { display: block; margin-bottom: 6px; color: #0f172a; }
+    .noodle-detail {
+      background: #fffbeb;
+      border: 1px solid #fde68a;
+      border-radius: 12px;
+      padding: 14px;
+      margin-bottom: 16px;
+      font-size: 0.92rem;
+      line-height: 1.5;
+    }
+    .btn-row { display: flex; gap: 10px; flex-wrap: wrap; }
+    .map-btn {
+      flex: 1;
+      min-width: 140px;
+      text-align: center;
+      background: #03c75a;
+      color: #fff;
+      text-decoration: none;
+      padding: 12px;
+      border-radius: 10px;
+      font-size: 0.88rem;
+      font-weight: 700;
+    }
+    .map-btn.sub { background: #2563eb; }
+    .map-btn.site { background: #475569; }
+    .check-label { display: flex; align-items: center; gap: 8px; padding: 4px 0; cursor: pointer; font-size: 0.9rem; }
+  </style>
 </head>
 <body>
-<header>
-  <div class="container header-inner">
-    <div>
-      <div class="profile-pill">📍 동탄반석로 71 출발 · 👧 7세 딸 & 👦 3세 아들 · 🍜 순한 국수 맛집</div>
-      <h1>주말 나들이 &amp; 축제 큐레이션 (10.24~10.25)</h1>
+  <div class="container">
+    <header>
+      <div class="sub">📍 동탄반석로 71 출발 · 👧 은우(7세) &amp; 👦 우준(3세) 맞춤 대시보드 (10.24~10.25)</div>
+      <h1>은우·우준이네 주말 나들이 &amp; 행사 추천 6선</h1>
+      <div class="weather-strip">
+        <span class="weather-pill">☀️ 10.24(토)~25(일) 쾌청 · 12~22℃</span>
+        <span class="weather-pill">🌿 미세먼지 좋음 · 죽미령 제외</span>
+      </div>
+    </header>
+
+    <div class="filter-bar">
+      <button class="filter-btn active" onclick="filterSpots('all', this)">전체 (6)</button>
+      <button class="filter-btn" onclick="filterSpots('outing', this)">🌳 나들이 (3)</button>
+      <button class="filter-btn" onclick="filterSpots('festival', this)">🎉 축제·전시 (3)</button>
+      <button class="filter-btn" onclick="filterSpots('near', this)">⚡ 20분 이내</button>
+      <button class="filter-btn" onclick="openChecklist()">📋 준비물 팩</button>
     </div>
-    <div class="header-actions">
-      <div class="weather-badge">☀️ 12~22℃ 쾌청·미세먼지 좋음</div>
-      <button id="ckBtn" class="btn btn-light">📋 준비물 팩</button>
+
+    <div class="card-grid" id="grid"></div>
+  </div>
+
+  <div class="modal-backdrop" id="modalBackdrop" onclick="closeModal()">
+    <div class="modal" onclick="event.stopPropagation()">
+      <div class="modal-header">
+        <div>
+          <div class="badges" id="mBadges"></div>
+          <h2 id="mTitle" style="font-size:1.35rem;"></h2>
+          <div id="mDrive" class="spot-drive" style="margin-top:4px; margin-bottom:0;"></div>
+        </div>
+        <button class="close-btn" onclick="closeModal()">✕</button>
+      </div>
+      <div class="detail-box">
+        <strong>👧 은우(7세) 맞춤 포인트</strong>
+        <p id="mGirl"></p>
+      </div>
+      <div class="detail-box">
+        <strong>👦 우준(3세) 맞춤 포인트</strong>
+        <p id="mBoy"></p>
+      </div>
+      <div class="detail-box">
+        <strong>🚼 유모차 &amp; 편의시설 팁</strong>
+        <p id="mTip"></p>
+      </div>
+      <div class="noodle-detail">
+        <strong id="mNoodleName" style="color:#92400e; display:block; margin-bottom:4px;"></strong>
+        <p id="mNoodleDesc"></p>
+      </div>
+      <div class="btn-row">
+        <a id="mPlaceLink" class="map-btn" target="_blank" rel="noopener">🗺️ 장소 지도</a>
+        <a id="mFoodLink" class="map-btn sub" target="_blank" rel="noopener">🍜 국수집 지도</a>
+        <a id="mSiteLink" class="map-btn site" target="_blank" rel="noopener">🌐 공식 누리집</a>
+      </div>
     </div>
   </div>
-</header>
 
-<main class="container">
-  <section id="kpis" class="kpi-grid"></section>
-
-  <section class="card toolbar">
-    <div id="tabs" class="tabs"></div>
-    <div class="search-wrap">
-      <input id="qInput" type="search" placeholder="장소, 국수, 키워드 검색...">
-      <select id="sortSel">
-        <option value="r">추천순</option>
-        <option value="t">가까운순</option>
-        <option value="n">이름순</option>
-      </select>
+  <div class="modal-backdrop" id="ckBackdrop" onclick="closeChecklist()">
+    <div class="modal" onclick="event.stopPropagation()">
+      <div class="modal-header">
+        <h2 style="font-size:1.25rem;">📋 주말 나들이 필수 준비물 팩</h2>
+        <button class="close-btn" onclick="closeChecklist()">✕</button>
+      </div>
+      <div class="detail-box">
+        <strong>👧 은우(7세)</strong>
+        <label class="check-label"><input type="checkbox"> 얇은 바람막이 겉옷</label>
+        <label class="check-label"><input type="checkbox"> 개인 텀블러·물병</label>
+        <label class="check-label"><input type="checkbox"> 편한 운동화·여벌 양말</label>
+      </div>
+      <div class="detail-box">
+        <strong>👦 우준(3세)</strong>
+        <label class="check-label"><input type="checkbox"> 휴대용 경량 유모차</label>
+        <label class="check-label"><input type="checkbox"> 국수용 실리콘 가위</label>
+        <label class="check-label"><input type="checkbox"> 기저귀 4~5개·물티슈·여벌 옷</label>
+      </div>
+      <div class="detail-box" style="margin-bottom:0;">
+        <strong>👨‍👩‍👧‍👦 가족 공통</strong>
+        <label class="check-label"><input type="checkbox"> 피크닉 돗자리·무릎담요</label>
+        <label class="check-label"><input type="checkbox"> 비상 상비약(밴드·연고)</label>
+      </div>
     </div>
-  </section>
-
-  <div class="notice-banner">💡 10.11 방문한 오산 죽미령 평화공원 & 백청우칼국수 오산점을 로테이션 제외하고 선별한 6곳입니다.</div>
-
-  <section id="grid" class="spots-grid"></section>
-</main>
-
-<div id="modalBox" class="modal-backdrop">
-  <div class="modal-panel">
-    <div class="modal-header">
-      <span id="modalTitle"></span>
-      <button id="modalClose" class="modal-close">✕</button>
-    </div>
-    <div id="modalBody" class="modal-body"></div>
   </div>
-</div>
 
-<script>
-const S = [["o", "오산 맑음나눔터공원 & 에코리움", "0", "오산 탑동대우길 39", "13", "12~14분", "월 휴관·무료주차", "전망대·곤충체험, 성곽 미끄럼틀·짚라인", "평지 잔디밭, 탄성바닥 유아미끄럼틀, 데크 유모차", "엘리베이터(4층), 실내 수유실·기저귀교환대", "백청우칼국수 오산점", "5분", "맑은 해물손칼국수·만두", "https://www.osan.go.kr/", "생태관·놀이터"], ["m", "용인 기흥 만골근린공원 숲놀이터", "0", "기흥구 상갈동", "16", "15~18분", "상시개방·무료주차", "성곽 놀이대 그물다리, 원통 미끄럼틀 모험", "푹신한 탄성매트·유아용 완만한 미끄럼틀", "무장애 경사로 유모차 진입, 기흥도서관 수유실", "신갈 총각손칼국수", "5분", "순한 멸치 손칼국수(면리필)", "https://www.yongin.go.kr/", "대형숲놀이터"], ["b", "화성 우리꽃식물원 (한옥 온실)", "0", "팔탄면 3.1만세로 777-17", "28", "25~30분", "09~18시(월 휴관)·무료주차", "한옥 유리온실 탐험, 스탬프투어, 숲놀이터", "비단잉어 구경, 무장애 목재데크 유모차 산책", "유모차 무료대여, 수유실·가족화장실·경사로", "팔탄 바지락손칼국수", "5분", "맑은 바지락칼국수·굴림만두", "https://botanic.hscity.go.kr/botanic/index.jsp", "한옥온실·단풍"], ["i", "2026 제23회 이천쌀문화축제", "1", "이천농업테마공원", "47", "45~50분", "10.22~26·임시주차/셔틀", "600m 가래떡 뽑기, 짚풀공예, 마당극 체험", "푹신한 볏짚 미끄럼틀 놀이터, 가마솥밥·떡 시식", "임시 수유실·기저귀교환 부스, 포장동선 유모차", "축제장 가마솥밥 & 칼국수", "5분", "2천원 가마솥밥 & 바지락칼국수", "http://www.ricefestival.or.kr/", "가을먹거리축제"], ["t", "2026 조선왕릉축전 피날레 (융건릉)", "1", "화성 융릉·건릉", "18", "15~20분", "10.17~25·공영주차장", "왕릉사관록 암호미션, 숲속 책마당, 음악회", "소나무 숲 평탄한 흙길 유모차 산책, 솔방울 줍기", "매표소 수유실·가족화장실 완비, 무장애 솔숲길", "융건릉맨날국수 화성점", "1분", "동죽조개칼국수 & 배말톳김밥", "https://jrtf.or.kr/brand/info/", "역사미션·솔숲"], ["a", "2026 안성팜랜드 코스목동 축제", "1", "안성 공도읍 대신두길 28", "32", "30~35분", "~11.1 시즌·무료주차", "핑크뮬리·코스모스 언덕, 양·알파카 먹이주기", "가족 전동자전거 탑승, 아기 양 만지기, 유모차 산책", "정문 유모차 대여소, 쾌적한 수유실·가족화장실", "공도 바지락칼국수·만두", "6분", "순한 바지락칼국수 & 왕만두", "https://nhasfarmland.com/new/comm/comm01.php?ptype=view&idx=8310&code=notice", "가을꽃·동물목장"]];
-const STORE_KEY_F = "dongtan_fav_2026-10-23";
-const STORE_KEY_V = "dongtan_vis_2026-10-23";
-let vis = [], fav = [], flt = "a", q = "", srt = "r";
-try {
-  fav = JSON.parse(localStorage.getItem(STORE_KEY_F) || "[]");
-  vis = JSON.parse(localStorage.getItem(STORE_KEY_V) || "[]");
-} catch (e) {}
-function saveState() {
-  try {
-    localStorage.setItem(STORE_KEY_F, JSON.stringify(fav));
-    localStorage.setItem(STORE_KEY_V, JSON.stringify(vis));
-  } catch (e) {}
-}
+  <script>
+    const spots = [{"type": "outing", "day": "sat", "driveMin": 13, "badgeType": "🌳 나들이 1", "badgeDay": "☀️ 가을 나들이", "title": "오산 맑음나눔터공원 & 에코리움", "drive": "🚗 자차 약 12~14분 (오산시 탑동대우길 39)", "summary": "생태체험관 에코리움 무료 관람과 야외 대형 미끄럼틀, 넓은 평지 잔디밭이 어우러진 공원", "girl": "에코리움 전망대 관람, 민물고기·곤충 체험, 야외 성곽 미끄럼틀과 짚라인 놀이", "boy": "차도 없는 안전한 평지 잔디밭 걷기, 탄성 바닥 유아용 낮은 미끄럼틀, 데크 유모차 산책", "tip": "에코리움 내부 엘리베이터 완비(4층까지), 쾌적한 실내 수유실 및 기저귀 교환대 구비", "noodleTag": "🍜 백청우칼국수 오산점", "noodleName": "🍜 연계 국수집: 백청우칼국수 오산점 (차로 5분)", "noodleDesc": "맑은 해물손칼국수 & 고기손만두 (아이들이 좋아하는 순한 육수, 아기의자 완비)", "placeQuery": "오산맑음터공원", "foodQuery": "백청우칼국수 오산점", "siteUrl": "https://www.osan.go.kr/"}, {"type": "outing", "day": "sat", "driveMin": 16, "badgeType": "🌳 나들이 2", "badgeDay": "☀️ 가을 나들이", "title": "용인 기흥 만골근린공원 (숲놀이터)", "drive": "🚗 자차 약 15~18분 (용인 기흥구 상갈동)", "summary": "성곽 모양 대형 모험 숲놀이터와 바닥 탄성 매트, 완만한 무장애 산책로를 갖춘 공원", "girl": "성곽 복합 놀이대 그물다리 건너기, 나선형 원통 미끄럼틀 등 모험 신체 놀이", "boy": "푹신한 탄성 매트 바닥이라 안전하며, 유아 전용 완만한 미끄럼틀과 평지 잔디 탐색", "tip": "완만한 경사로로 유모차 진입이 편하고, 바로 옆 기흥도서관 1층 수유실 이용 가능", "noodleTag": "🍜 신갈 총각손칼국수", "noodleName": "🍜 연계 국수집: 신갈 총각손칼국수 (차로 5분)", "noodleDesc": "다진 양념 없이 나오는 맑고 깊은 멸치육수 손칼국수 (면발이 부드러움)", "placeQuery": "기흥 만골근린공원", "foodQuery": "신갈 총각손칼국수", "siteUrl": "https://www.yongin.go.kr/"}, {"type": "outing", "day": "sun", "driveMin": 28, "badgeType": "🌳 나들이 3", "badgeDay": "☀️ 실내외 겸용", "title": "화성시 우리꽃식물원 (한옥 온실)", "drive": "🚗 자차 약 25~30분 (화성시 팔탄면)", "summary": "전통 한옥 유리온실과 생태연못, 가을 은행나무 솔숲길 및 유아 숲놀이터가 있는 식물원", "girl": "사계절 한옥 온실 속 희귀 식물 탐험, 스탬프 투어 미션, 야외 솔숲 생태 놀이터", "boy": "온실 내 비단잉어 구경, 턱 없는 목재 데크 유모차 주행, 넓은 분수광장 걷기", "tip": "매표소 유모차 무료 대여소 운영, 식물관 내 수유실 및 전 구역 램프 설치", "noodleTag": "🍜 팔탄 바지락손칼국수", "noodleName": "🍜 연계 국수집: 팔탄 바지락손칼국수 (차로 5분)", "noodleDesc": "고추·후추 없는 맑고 개운한 바지락칼국수 & 굴림만두 (아기의자·룸 좌석 완비)", "placeQuery": "화성시 우리꽃식물원", "foodQuery": "팔탄 바지락손칼국수", "siteUrl": "https://botanic.hscity.go.kr/botanic/index.jsp"}, {"type": "festival", "day": "sat", "driveMin": 47, "badgeType": "🎉 축제 1 (10/22~26)", "badgeDay": "☀️ 가을 축제", "title": "2026 제23회 이천쌀문화축제", "drive": "🚗 자차 약 45~50분 (이천농업테마공원)", "summary": "대형 가마솥 쌀밥 짓기, 600m 무지개 가래떡 뽑기, 볏짚 미끄럼틀 놀이터 축제", "girl": "600m 가래떡 뽑기 이벤트, 짚풀 공예 만들기, 전통 마당극 및 농경 도구 체험", "boy": "푹신한 볏짚 미끄럼틀 놀이터, 따끈한 이천 쌀밥·떡 시식, 평지 공원 유모차 이동", "tip": "축제장 내 임시 수유실·기저귀 교환 부스 설치, 주 이동로 아스팔트/데크 포장", "noodleTag": "🍜 가마솥 쌀밥 & 칼국수", "noodleName": "🍜 연계 먹거리: 축제장 쌀밥 정식 & 인근 바지락칼국수", "noodleDesc": "축제장 내 2천원 가마솥 쌀밥 시식과 인근 순한 바지락칼국수 조합 추천", "placeQuery": "이천농업테마공원", "foodQuery": "이천농업테마공원 칼국수", "siteUrl": "http://www.ricefestival.or.kr/"}, {"type": "festival", "day": "sat", "driveMin": 18, "badgeType": "🎉 축제 2 (10/17~25)", "badgeDay": "☀️ 피날레 주말", "title": "2026 조선왕릉축전 피날레 (융릉·건릉)", "drive": "🚗 자차 약 15~20분 (화성시 안녕동)", "summary": "유네스코 세계유산 융건릉 솔숲에서 펼쳐지는 어린이 사관 탐방 미션과 책마당 축제", "girl": "'조선명탐정: 왕릉사관록' 사관 복장 미션 해결, 숲속 책마당, 왕릉 음악회 감상", "boy": "키 큰 소나무 숲길 평탄한 흙길 유모차 산책, 솔방울·단풍잎 줍기", "tip": "정문 매표소 인근 수유실 및 가족 화장실 마련, 경사 완만한 유모차 최적 코스", "noodleTag": "🍜 융건릉맨날국수", "noodleName": "🍜 연계 국수집: 융건릉맨날국수 화성점 (정문 차로 1분)", "noodleDesc": "동죽조개칼국수 & 배말톳김밥 (자극 없는 맑은 조개 육수, 아기의자 완비)", "placeQuery": "화성 융건릉", "foodQuery": "융건릉맨날국수 화성점", "siteUrl": "https://jrtf.or.kr/brand/info/"}, {"type": "festival", "day": "sun", "driveMin": 32, "badgeType": "🎉 축제 3 (~11/1)", "badgeDay": "☀️ 가을 목장", "title": "2026 안성팜랜드 코스목동 축제", "drive": "🚗 자차 약 30~35분 (안성시 공도읍)", "summary": "핑크뮬리와 코스모스 언덕, 양·알파카 등 목장 동물 친구들과 교감하는 가을 축제", "girl": "코스모스 언덕 사진 촬영, 양·알파카 당근 먹이주기, 가축 레이싱쇼 & 승마 체험", "boy": "가족형 전동자전거 탑승, 아기 양·토끼 만지기, 완만한 초원 산책로 유모차 드라이브", "tip": "정문 유모차 대여소(3천원), 쾌적한 수유실 및 가족 화장실 곳곳 완비", "noodleTag": "🍜 공도 바지락칼국수", "noodleName": "🍜 연계 국수집: 공도 바지락칼국수·손만두 (차로 6분)", "noodleDesc": "해물 베이스의 순한 육수 칼국수와 부드러운 수제 왕만두 (3세 유아 식사 최적)", "placeQuery": "안성팜랜드", "foodQuery": "공도 바지락칼국수", "siteUrl": "https://nhasfarmland.com/new/comm/comm01.php?ptype=view&idx=8310&code=notice"}];
 
-document.getElementById("kpis").innerHTML = [
-  ["📍 총 추천 장소", "6곳 (상시 3 + 축제 3)"],
-  ["🚗 평균 이동 시간", "24분 (오산 13분 ~ 안성 32분)"],
-  ["👶 유모차·수유실", "100% 무장애 안심 동선"],
-  ["🍜 국수 맛집 매칭", "전 코스 맵지 않은 순한 육수"]
-].map(([k, v]) => `<div class="card kpi-card"><small>${k}</small><strong>${v}</strong></div>`).join("");
+    function renderGrid(filter = 'all') {
+      const grid = document.getElementById('grid');
+      grid.innerHTML = '';
+      spots.forEach((s, idx) => {
+        if (filter === 'outing' && s.type !== 'outing') return;
+        if (filter === 'festival' && s.type !== 'festival') return;
+        if (filter === 'near' && s.driveMin > 20) return;
+        const card = document.createElement('div');
+        card.className = 'spot-card';
+        card.onclick = () => openModal(idx);
+        card.innerHTML = `
+          <div>
+            <div class="badges">
+              <span class="badge ${s.type === 'outing' ? 'outing' : 'festival'}">${s.badgeType}</span>
+              <span class="badge ${s.day === 'sat' ? 'sat' : 'sun'}">${s.badgeDay}</span>
+            </div>
+            <div class="spot-title">${s.title}</div>
+            <div class="spot-drive">${s.drive}</div>
+            <div class="spot-summary">${s.summary}</div>
+          </div>
+          <div class="spot-footer">
+            <span class="noodle-tag">${s.noodleTag}</span>
+            <span>상세 보기 →</span>
+          </div>
+        `;
+        grid.appendChild(card);
+      });
+    }
 
-function render() {
-  document.getElementById("tabs").innerHTML = [
-    ["a", "전체 (6)"],
-    ["0", "🌳 상시 나들이 (3)"],
-    ["1", "🎪 축제·전시 (3)"],
-    ["n", "⚡ 20분 이내"],
-    ["f", "⭐ 찜 (" + fav.length + ")"],
-    ["v", "✅ 방문 (" + vis.length + ")"]
-  ].map(([k, l]) => `<button data-f="${k}" class="tab-btn ${flt === k ? "active" : ""}">${l}</button>`).join("");
+    function filterSpots(filter, btn) {
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      renderGrid(filter);
+    }
 
-  let L = S.filter(x =>
-    (!q || x.some(s => String(s).toLowerCase().includes(q.toLowerCase()))) &&
-    (flt === "a" || flt === x[2] || (flt === "n" && parseFloat(x[4]) <= 20) || (flt === "f" && fav.includes(x[0])) || (flt === "v" && vis.includes(x[0])))
-  );
-  if (srt === "t") L.sort((a, b) => parseFloat(a[4]) - parseFloat(b[4]));
-  if (srt === "n") L.sort((a, b) => a[1].localeCompare(b[1]));
+    function openModal(idx) {
+      const s = spots[idx];
+      document.getElementById('mBadges').innerHTML = `
+        <span class="badge ${s.type === 'outing' ? 'outing' : 'festival'}">${s.badgeType}</span>
+        <span class="badge ${s.day === 'sat' ? 'sat' : 'sun'}">${s.badgeDay}</span>
+      `;
+      document.getElementById('mTitle').textContent = s.title;
+      document.getElementById('mDrive').textContent = s.drive;
+      document.getElementById('mGirl').textContent = s.girl;
+      document.getElementById('mBoy').textContent = s.boy;
+      document.getElementById('mTip').textContent = s.tip;
+      document.getElementById('mNoodleName').textContent = s.noodleName;
+      document.getElementById('mNoodleDesc').textContent = s.noodleDesc;
+      document.getElementById('mPlaceLink').href = 'https://map.naver.com/p/search/' + encodeURIComponent(s.placeQuery);
+      document.getElementById('mFoodLink').href = 'https://map.naver.com/p/search/' + encodeURIComponent(s.foodQuery);
+      document.getElementById('mSiteLink').href = s.siteUrl;
+      document.getElementById('modalBackdrop').classList.add('open');
+    }
 
-  const gridEl = document.getElementById("grid");
-  if (!L.length) {
-    gridEl.innerHTML = `<div class="empty-state">조건에 맞는 추천 장소가 없습니다. 필터나 검색어를 초기화해 보세요.</div>`;
-    return;
-  }
+    function closeModal() {
+      document.getElementById('modalBackdrop').classList.remove('open');
+    }
 
-  gridEl.innerHTML = L.map(x => `
-    <article class="card spot-card ${vis.includes(x[0]) ? "visited" : ""}">
-      <div>
-        <div class="spot-top">
-          <span class="badge ${+x[2] ? "fest" : ""}">${+x[2] ? "🎪 축제·전시" : "🌳 상시 나들이"} · ${x[14]}</span>
-          <button class="fav-btn ${fav.includes(x[0]) ? "on" : ""}" data-a="f" data-i="${x[0]}">${fav.includes(x[0]) ? "★ 찜" : "☆ 찜"}</button>
-        </div>
-        <h2 class="spot-title" style="margin:8px 0 4px;">${x[1]}</h2>
-        <div class="spot-meta">🚗 편도 ${x[5]} · ${x[3]}</div>
-        <div class="age-box" style="margin-top:10px;">
-          <div>👧 <b>7세 딸:</b> ${x[7]}</div>
-          <div>👦 <b>3세 아들:</b> ${x[8]}</div>
-        </div>
-      </div>
-      <div>
-        <div class="food-box">
-          <div>🍜 <strong>${x[10]}</strong> (${x[11]})</div>
-          <div style="margin-top:2px;">${x[12]}</div>
-        </div>
-        <div class="spot-actions" style="margin-top:10px;">
-          <button class="btn btn-dark" data-a="d" data-i="${x[0]}">상세 가이드</button>
-          <button class="btn ${vis.includes(x[0]) ? "btn-primary" : ""}" data-a="v" data-i="${x[0]}">${vis.includes(x[0]) ? "✓ 다녀왔음" : "다녀왔어요"}</button>
-        </div>
-      </div>
-    </article>
-  `).join("");
-}
+    function openChecklist() {
+      document.getElementById('ckBackdrop').classList.add('open');
+    }
 
-document.getElementById("tabs").onclick = e => {
-  const b = e.target.closest("button");
-  if (b) { flt = b.dataset.f; render(); }
-};
+    function closeChecklist() {
+      document.getElementById('ckBackdrop').classList.remove('open');
+    }
 
-document.getElementById("grid").onclick = e => {
-  const b = e.target.closest("button");
-  if (!b) return;
-  const { a, i } = b.dataset;
-  const x = S.find(s => s[0] === i);
-  if (a === "f") {
-    fav.includes(i) ? fav.splice(fav.indexOf(i), 1) : fav.push(i);
-    saveState();
-    render();
-  } else if (a === "v") {
-    vis.includes(i) ? vis.splice(vis.indexOf(i), 1) : vis.push(i);
-    saveState();
-    render();
-  } else if (a === "d" && x) {
-    document.getElementById("modalTitle").textContent = x[1];
-    document.getElementById("modalBody").innerHTML = `
-      <div class="age-box">
-        <div><b>🚗 이동 및 주소:</b> 편도 ${x[5]} (${x[3]})</div>
-        <div><b>🕒 운영 및 주차:</b> ${x[6]}</div>
-      </div>
-      <div class="age-box">
-        <div>👧 <b>7세 딸 포인트:</b> ${x[7]}</div>
-        <div>👦 <b>3세 아들 포인트:</b> ${x[8]}</div>
-        <div>👶 <b>유모차·수유실·화장실:</b> ${x[9]}</div>
-      </div>
-      <div class="food-box">
-        <div>🍜 <strong>${x[10]}</strong> (${x[11]})</div>
-        <div>${x[12]}</div>
-      </div>
-      <div class="modal-footer">
-        <a href="${x[13]}" target="_blank" rel="noopener noreferrer" class="btn btn-primary">🌐 공식 누리집 바로가기</a>
-        <button class="btn" onclick="document.getElementById('modalBox').classList.remove('open')">닫기</button>
-      </div>
-    `;
-    document.getElementById("modalBox").classList.add("open");
-  }
-};
-
-document.getElementById("ckBtn").onclick = () => {
-  document.getElementById("modalTitle").textContent = "📋 주말 나들이 필수 준비물 팩";
-  document.getElementById("modalBody").innerHTML = [
-    ["👧 7세 딸", ["가을 야외활동용 얇은 바람막이", "개인 텀블러 및 보온 물병", "편한 운동화 및 여벌 양말", "야외 돗자리 및 간단 간식"]],
-    ["👦 3세 아들", ["휴대용 경량 유모차", "국수용 전용 실리콘 가위", "기저귀 5개 및 물티슈", "체온 조절용 여벌 겉옷 1벌"]],
-    ["👨‍👩‍👧‍👦 가족 공통", ["피크닉 매트 및 무릎담요", "비상 상비약 (밴드·연고)", "물티슈 및 휴지"]]
-  ].map(([t, items]) => `
-    <div class="age-box">
-      <b style="margin-bottom:4px;">${t}</b>
-      ${items.map(l => `<label class="check-item"><input type="checkbox"><span>${l}</span></label>`).join("")}
-    </div>
-  `).join("") + `<div class="modal-footer"><button class="btn btn-primary" onclick="document.getElementById('modalBox').classList.remove('open')">확인</button></div>`;
-  document.getElementById("modalBox").classList.add("open");
-};
-
-document.getElementById("modalClose").onclick = () => document.getElementById("modalBox").classList.remove("open");
-document.getElementById("modalBox").onclick = e => {
-  if (e.target === document.getElementById("modalBox")) document.getElementById("modalBox").classList.remove("open");
-};
-document.getElementById("qInput").oninput = e => { q = e.target.value; render(); };
-document.getElementById("sortSel").onchange = e => { srt = e.target.value; render(); };
-
-render();
-</script>
+    renderGrid();
+  </script>
 </body>
 </html>
