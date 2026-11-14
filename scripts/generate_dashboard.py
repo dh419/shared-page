@@ -91,7 +91,8 @@ def generate_dashboard():
         'gemini-3.8-flash',
         'gemini-3.5-flash-lite',
         'gemini-3.5-flash',
-        'gemini-4-argon'
+        'gemini-4-argon',
+        'gemini-2.5-flash'
     ]
     seen = set()
     models_to_try = [m for m in candidate_models if not (m in seen or seen.add(m))]
