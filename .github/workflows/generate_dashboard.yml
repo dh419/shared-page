@@ -2,8 +2,9 @@ name: Generate and Publish Weekly Dashboard
 
 on:
   schedule:
-    # 매주 금요일 오후 16:00 KST (UTC 금요일 07:00) 자동 무인 실행
-    - cron: '0 7 * * 5'
+    # 매주 금요일 오후 16:00 ~ 17:30 KST (UTC 금요일 07:00 ~ 08:30) 10분 주기 체크
+    - cron: '*/10 7 * * 5'
+    - cron: '0,10,20,30 8 * * 5'
   workflow_dispatch:
     inputs:
       model:
